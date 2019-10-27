@@ -13,3 +13,6 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# contains CONSUMER_KEY and CONSUMER_API_KEY
+app/src/main/res/values/strings_secret.xml
