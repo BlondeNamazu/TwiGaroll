@@ -16,7 +16,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         login_button.callback = object : Callback<TwitterSession>(){
             override fun success(result: Result<TwitterSession>?) {
-                Log.d("Namazu","success")
+                Log.d("Namazu","Successfully logged in as ${result?.data?.userName} (id : ${result?.data?.userId})")
+                finish()
             }
 
             override fun failure(exception: TwitterException?) {
