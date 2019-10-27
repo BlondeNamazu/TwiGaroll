@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
         }else{
-            Log.d("Namazu","Logging in ...")
+            Log.d("Namazu","Already logged in as ${TwitterCore.getInstance().sessionManager.activeSession.userName} (id : ${TwitterCore.getInstance().sessionManager.activeSession.userId})")
         }
 
     }
