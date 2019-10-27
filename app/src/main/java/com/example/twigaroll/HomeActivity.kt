@@ -14,23 +14,37 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
+    private lateinit var adapter : TweetAdapter
+    private var tweetList = emptyList<Tweet>().toMutableList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setupTimeline()
+        adapter = TweetAdapter(this, tweetList)
+        timeline_listview.adapter = adapter
+        getHomeTimeline()
+        get_timeline.setOnClickListener { getHomeTimeline() }
     }
 
-    fun setupTimeline() {
-        val session = TwitterCore.getInstance().sessionManager.activeSession ?: return
-        val token = session.authToken ?: return
+    fun getHomeTimeline() {
+        val twitterApiClient = TwitterCore.getInstance().apiClient
+        val statusesService = twitterApiClient.statusesService
 
-        val userTimeline = UserTimeline.Builder()
-            .screenName(session.userName)
-            .build()
-        val adapter = TweetTimelineListAdapter.Builder(this)
-            .setTimeline(userTimeline)
-            .build()
-        timeline_listview.adapter = adapter
+        val call = statusesService.homeTimeline(20,null,null,null,null,null,null)
+
+        call.enqueue(object : Callback<List<Tweet>>(){
+            override fun success(result: Result<List<Tweet>>?) {
+                result ?: return
+                tweetList.removeAll(tweetList)
+                tweetList.addAll(result.data)
+                adapter.notifyDataSetChanged()
+                Log.d("Namazu","success to get timeline")
+            }
+
+            override fun failure(exception: TwitterException?) {
+                Log.d("Namazu","failed to get timeline")
+            }
+        })
     }
 }
