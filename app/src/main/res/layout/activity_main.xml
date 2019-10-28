@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/setlistener"
+    <Button
+        android:id="@+id/go_to_tweet_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hello"
+        android:text="go_to_tweet_home"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
