@@ -1,50 +1,27 @@
 package com.example.twigaroll
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
-import com.twitter.sdk.android.core.models.Tweet
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter
-import com.twitter.sdk.android.tweetui.UserTimeline
-import kotlinx.android.synthetic.main.activity_home.*
+import androidx.lifecycle.ViewModelProviders
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var adapter : TweetAdapter
-    private var tweetList = emptyList<Tweet>().toMutableList()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        adapter = TweetAdapter(this, tweetList)
-        timeline_listview.adapter = adapter
-        getHomeTimeline()
-        get_timeline.setOnClickListener { getHomeTimeline() }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.content_frame, findOrCreateViewFragment())
+        }.commit()
+
+        homeViewModel = obtainViewModel()
     }
 
-    fun getHomeTimeline() {
-        val twitterApiClient = TwitterCore.getInstance().apiClient
-        val statusesService = twitterApiClient.statusesService
+    private fun findOrCreateViewFragment() =
+        supportFragmentManager.findFragmentById(R.id.content_frame) ?: HomeFragment()
 
-        val call = statusesService.homeTimeline(20,null,null,null,null,null,null)
-
-        call.enqueue(object : Callback<List<Tweet>>(){
-            override fun success(result: Result<List<Tweet>>?) {
-                result ?: return
-                tweetList.removeAll(tweetList)
-                tweetList.addAll(result.data)
-                adapter.notifyDataSetChanged()
-                Log.d("Namazu","success to get timeline")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu","failed to get timeline")
-            }
-        })
-    }
+    fun obtainViewModel(): HomeViewModel =
+        ViewModelProviders.of(this).get(HomeViewModel::class.java)
 }
