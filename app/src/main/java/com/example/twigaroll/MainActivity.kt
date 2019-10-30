@@ -13,15 +13,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(TwitterCore.getInstance().sessionManager.activeSession == null){
-            val intent = Intent(this,LoginActivity::class.java)
+        if (TwitterCore.getInstance().sessionManager.activeSession == null) {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-        }else{
-            Log.d("Namazu","Already logged in as ${TwitterCore.getInstance().sessionManager.activeSession.userName} (id : ${TwitterCore.getInstance().sessionManager.activeSession.userId})")
+        } else {
+            Log.d(
+                "Namazu",
+                "Already logged in as ${TwitterCore.getInstance().sessionManager.activeSession.userName} (id : ${TwitterCore.getInstance().sessionManager.activeSession.userId})"
+            )
         }
 
         go_to_tweet_home.setOnClickListener {
-            val intent = Intent(this,HomeActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
 

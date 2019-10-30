@@ -14,24 +14,24 @@ import com.twitter.sdk.android.core.models.Tweet
 class HomeViewModel : ViewModel() {
 
     private val _tweetList = MutableLiveData<List<Tweet>>()
-    val tweetList : LiveData<List<Tweet>>
+    val tweetList: LiveData<List<Tweet>>
         get() = _tweetList
 
     fun refreshTimeline(v: View) {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
 
-        val call = statusesService.homeTimeline(20,null,null,null,null,null,null)
+        val call = statusesService.homeTimeline(20, null, null, null, null, null, null)
 
-        call.enqueue(object : Callback<List<Tweet>>(){
+        call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>?) {
                 result ?: return
                 _tweetList.value = result.data
-                Log.d("Namazu","success to get timeline")
+                Log.d("Namazu", "success to get timeline")
             }
 
             override fun failure(exception: TwitterException?) {
-                Log.d("Namazu","failed to get timeline")
+                Log.d("Namazu", "failed to get timeline")
             }
         })
 

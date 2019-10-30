@@ -12,7 +12,8 @@ import com.twitter.sdk.android.core.models.Tweet
 
 class TweetAdapter(private val context: Context, private val tweetList: List<Tweet>) :
     BaseAdapter() {
-    private val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val layoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getCount(): Int {
         return tweetList.size
