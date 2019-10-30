@@ -12,18 +12,15 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
     private lateinit var adapter: TweetAdapter
-    private var tweetList = emptyList<Tweet>().toMutableList()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = TweetAdapter(requireContext(), tweetList)
+        adapter = TweetAdapter(requireContext())
         timeline_listview.adapter = adapter
         binding.viewModel?.tweetList?.observe(this, Observer<List<Tweet>> {
-            tweetList.removeAll(tweetList)
-            tweetList.addAll(it)
+            adapter.replaceList(it)
             adapter.notifyDataSetChanged()
         })
     }
@@ -36,8 +33,8 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.bind(view).apply {
             viewModel = (activity as HomeActivity).obtainViewModel()
+            lifecycleOwner = this.lifecycleOwner
         }
-        binding.lifecycleOwner = this.viewLifecycleOwner
         return view
     }
 

@@ -12,10 +12,9 @@ import com.example.twigaroll.databinding.TweetRowBinding
 
 import com.twitter.sdk.android.core.models.Tweet
 
-class TweetAdapter(private val context: Context, private val tweetList: List<Tweet>) :
+class TweetAdapter(private val context: Context) :
     BaseAdapter() {
-    private val layoutInflater =
-        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private var tweetList = emptyList<Tweet>()
 
     override fun getCount(): Int {
         return tweetList.size
@@ -26,7 +25,7 @@ class TweetAdapter(private val context: Context, private val tweetList: List<Twe
     }
 
     override fun getItemId(position: Int): Long {
-        return tweetList[position].getId()
+        return tweetList[position].id
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -41,10 +40,13 @@ class TweetAdapter(private val context: Context, private val tweetList: List<Twe
             binding
         } else {
             convertView.tag as TweetRowBinding
-        }
-        binding.apply {
+        }.apply {
             tweet = tweetList[position]
         }
         return binding.root
+    }
+
+    fun replaceList(newList: List<Tweet>) {
+        tweetList = newList
     }
 }
