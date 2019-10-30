@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.twigaroll.databinding.TweetRowBinding
 
 import com.twitter.sdk.android.core.models.Tweet
 
@@ -27,19 +29,22 @@ class TweetAdapter(private val context: Context, private val tweetList: List<Twe
         return tweetList[position].getId()
     }
 
-    override fun getView(position: Int, givenView: View?, parent: ViewGroup): View {
-        val convertView = layoutInflater.inflate(R.layout.tweet_row, parent, false)
-
-        val tweet = tweetList[position]
-
-        val screenNameTextView = convertView.findViewById<View>(R.id.screen_name) as TextView
-        val tweetTextTextView = convertView.findViewById<View>(R.id.tweet_text) as TextView
-        val favoriteCountTextView = convertView.findViewById<View>(R.id.favorite_count) as TextView
-
-        screenNameTextView.text = tweet.user.name
-        tweetTextTextView.text = tweet.text
-        favoriteCountTextView.text = tweet.favoriteCount.toString()
-
-        return convertView
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val binding = if (convertView == null) {
+            val binding: TweetRowBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context),
+                R.layout.tweet_row,
+                parent,
+                false
+            )
+            binding.root.tag = binding
+            binding
+        } else {
+            convertView.tag as TweetRowBinding
+        }
+        binding.apply {
+            tweet = tweetList[position]
+        }
+        return binding.root
     }
 }
