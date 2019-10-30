@@ -23,6 +23,13 @@ class HomeFragment : Fragment() {
             adapter.replaceList(it)
             adapter.notifyDataSetChanged()
         })
+
+        timeline_refresh_layout.setOnRefreshListener {
+            binding.viewModel?.refreshTimeline(timeline_listview)
+            timeline_refresh_layout.isRefreshing = false
+        }
+
+        binding.viewModel?.refreshTimeline(timeline_listview)
     }
 
     override fun onCreateView(
