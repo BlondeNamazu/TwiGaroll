@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="tweet"
@@ -9,6 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:imageUrl="@{tweet.user.profileImageUrlHttps}"/>
 
         <TextView
             android:id="@+id/screen_name"
