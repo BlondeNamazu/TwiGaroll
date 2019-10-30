@@ -8,20 +8,17 @@
         android:id="@+id/screen_name"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:text="名前"
-        />
+        android:text="名前" />
 
     <TextView
         android:id="@+id/tweet_text"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:text="ツイート本文"
-        />
+        android:text="ツイート本文" />
 
     <TextView
         android:id="@+id/favorite_count"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        />
+        android:layout_height="32dp" />
 
 </LinearLayout>

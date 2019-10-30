@@ -10,7 +10,7 @@ import com.example.twigaroll.databinding.FragmentHomeBinding
 import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var adapter: TweetAdapter

@@ -14,20 +14,23 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        login_button.callback = object : Callback<TwitterSession>(){
+        login_button.callback = object : Callback<TwitterSession>() {
             override fun success(result: Result<TwitterSession>?) {
-                Log.d("Namazu","Successfully logged in as ${result?.data?.userName} (id : ${result?.data?.userId})")
+                Log.d(
+                    "Namazu",
+                    "Successfully logged in as ${result?.data?.userName} (id : ${result?.data?.userId})"
+                )
                 finish()
             }
 
             override fun failure(exception: TwitterException?) {
-                Log.d("Namazu",exception.toString())
+                Log.d("Namazu", exception.toString())
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        login_button.onActivityResult(requestCode,resultCode,data)
+        login_button.onActivityResult(requestCode, resultCode, data)
     }
 }
