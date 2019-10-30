@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/screen_name"
+<layout>
+    <data>
+        <variable
+            name="tweet"
+            type="com.twitter.sdk.android.core.models.Tweet" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:text="名前" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tweet_text"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:text="ツイート本文" />
+        <TextView
+            android:id="@+id/screen_name"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="@{tweet.user.name + ` @` + tweet.user.screenName}" />
 
-    <TextView
-        android:id="@+id/favorite_count"
-        android:layout_width="match_parent"
-        android:layout_height="32dp" />
+        <TextView
+            android:id="@+id/tweet_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{tweet.text}" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/favorite_count"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="@{tweet.favoriteCount.toString()}"/>
+
+    </LinearLayout>
+
+</layout>
