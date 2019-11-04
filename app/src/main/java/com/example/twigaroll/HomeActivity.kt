@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var galleryViewModel: GalleryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,12 +17,14 @@ class HomeActivity : AppCompatActivity() {
             replace(R.id.content_frame, findOrCreateViewFragment())
         }.commit()
 
-        homeViewModel = obtainViewModel()
+        galleryViewModel = obtainGalleryViewModel()
     }
 
     private fun findOrCreateViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.content_frame) ?: HomeFragment()
+        supportFragmentManager.findFragmentById(R.id.content_frame) ?: GalleryFragment()
 
-    fun obtainViewModel(): HomeViewModel =
+    fun obtainHomeViewModel(): HomeViewModel =
         ViewModelProviders.of(this).get(HomeViewModel::class.java)
+    fun obtainGalleryViewModel(): GalleryViewModel =
+        ViewModelProviders.of(this).get(GalleryViewModel::class.java)
 }
