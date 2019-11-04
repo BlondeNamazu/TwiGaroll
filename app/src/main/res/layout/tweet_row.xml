@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="tweet"
             type="com.twitter.sdk.android.core.models.Tweet" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:imageUrl="@{tweet.user.profileImageUrlHttps}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@{tweet.user.name}"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintTop_toTopOf="@id/profile_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{tweet.user.name}"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/user_screenname"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"/>
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            app:layout_constraintTop_toTopOf="@id/profile_image" />
 
         <TextView
             android:id="@+id/user_screenname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@{`@` + tweet.user.screenName}"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{`@` + tweet.user.screenName}"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/profile_image"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"/>
+            app:layout_constraintLeft_toRightOf="@id/profile_image" />
 
         <TextView
             android:id="@+id/tweet_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            android:text="@{tweet.text}"
+            android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
-            android:text="@{tweet.text}" />
+            app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
         <TextView
             android:id="@+id/favorite_count"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:textSize="16sp"
             android:layout_margin="8dp"
             android:text="@{`Fav: ` + tweet.favoriteCount.toString() + ` Retweet: ` + tweet.retweetCount}"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"/>
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.bind(view).apply {
-            viewModel = (activity as HomeActivity).obtainViewModel()
+            viewModel = (activity as HomeActivity).obtainHomeViewModel()
             lifecycleOwner = this.lifecycleOwner
         }
         return view
