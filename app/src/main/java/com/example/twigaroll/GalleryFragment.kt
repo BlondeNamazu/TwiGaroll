@@ -43,18 +43,7 @@ class GalleryFragment : Fragment() {
             lifecycleOwner = this.lifecycleOwner
             galleryListview.onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, position, _ ->
-                    val bundle = Bundle()
-                    bundle.putString(
-                        "imageURL",
-                        binding.viewModel?.imageURLs?.value?.get(position)
-                            ?: return@OnItemClickListener
-                    )
-                    val detailFragment = GalleryDetailFragment()
-                    detailFragment.arguments = bundle
-                    val fm = fragmentManager ?: return@OnItemClickListener
-                    fm.beginTransaction()
-                        .add(R.id.gallery_container, detailFragment)
-                        .commit()
+                    (viewModel as GalleryViewModel).beginGalleryDetailFragment(fragmentManager?:return@OnItemClickListener,position)
                 }
         }
         return view

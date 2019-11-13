@@ -1,7 +1,9 @@
 package com.example.twigaroll
 
+import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,5 +43,19 @@ class GalleryViewModel : ViewModel() {
             }
         })
 
+    }
+
+    fun beginGalleryDetailFragment(fragmentManager: FragmentManager, position: Int) {
+        val bundle = Bundle()
+        bundle.putString(
+            "imageURL",
+            imageURLs.value?.get(position)
+                ?: return
+        )
+        val detailFragment = GalleryDetailFragment()
+        detailFragment.arguments = bundle
+        fragmentManager.beginTransaction()
+            .add(R.id.gallery_container, detailFragment)
+            .commit()
     }
 }
