@@ -43,7 +43,7 @@ class GalleryFragment : Fragment() {
             lifecycleOwner = this.lifecycleOwner
             galleryListview.onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, position, _ ->
-                    (viewModel as GalleryViewModel).beginGalleryDetailFragment(fragmentManager?:return@OnItemClickListener,position)
+                    (viewModel as GalleryViewModel).beginGalleryDetailFragment(position)
                 }
         }
         return view
