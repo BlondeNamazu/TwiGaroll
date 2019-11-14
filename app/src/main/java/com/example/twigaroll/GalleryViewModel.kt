@@ -1,5 +1,6 @@
 package com.example.twigaroll
 
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -16,6 +17,7 @@ class GalleryViewModel : ViewModel() {
     private val _imageURLs = MutableLiveData<List<String>>()
     val imageURLs: LiveData<List<String>>
         get() = _imageURLs
+    private lateinit var navigator: GalleryNavigator
 
     fun refreshTimeline(v: View) {
         val twitterApiClient = TwitterCore.getInstance().apiClient
@@ -41,5 +43,22 @@ class GalleryViewModel : ViewModel() {
             }
         })
 
+    }
+
+    fun setNavigator(navigator: GalleryNavigator) {
+        this.navigator = navigator
+    }
+
+    fun beginGalleryDetailFragment(position: Int) {
+        if (!this::navigator.isInitialized) return
+        val bundle = Bundle()
+        bundle.putString(
+            "imageURL",
+            imageURLs.value?.get(position)
+                ?: return
+        )
+        val detailFragment = GalleryDetailFragment()
+        detailFragment.arguments = bundle
+        navigator.addFragmentToActivity(R.id.gallery_container, detailFragment)
     }
 }
