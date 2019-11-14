@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.timeline
 
 import android.util.Log
 import android.view.View
@@ -11,7 +11,7 @@ import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
 
-class HomeViewModel : ViewModel() {
+class TimelineViewModel : ViewModel() {
 
     private val _tweetList = MutableLiveData<List<Tweet>>()
     val tweetList: LiveData<List<Tweet>>

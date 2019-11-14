@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

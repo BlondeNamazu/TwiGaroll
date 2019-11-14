@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.timeline
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.twigaroll.R
 import com.example.twigaroll.databinding.FragmentHomeBinding
+import com.example.twigaroll.home.HomeActivity
 import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment() {
+class TimelineFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: TweetAdapter
 
@@ -39,7 +41,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.bind(view).apply {
-            viewModel = (activity as HomeActivity).obtainHomeViewModel()
+            viewModel = (activity as HomeActivity).obtainTimelineViewModel()
             lifecycleOwner = this.lifecycleOwner
         }
         return view

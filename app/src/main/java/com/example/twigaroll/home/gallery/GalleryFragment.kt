@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.gallery
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.twigaroll.R
 import com.example.twigaroll.databinding.FragmentGalleryBinding
+import com.example.twigaroll.home.HomeActivity
 import kotlinx.android.synthetic.main.fragment_gallery.*
 
 class GalleryFragment : Fragment() {
