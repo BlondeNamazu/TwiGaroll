@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.gallery
 
 import android.os.Bundle
 import android.util.Log
@@ -6,6 +6,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.twigaroll.home.gallery_detail.GalleryDetailFragment
+import com.example.twigaroll.R
 import com.twitter.sdk.android.core.Callback
 import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterCore

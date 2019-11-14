@@ -1,17 +1,12 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.gallery_detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import com.example.twigaroll.databinding.FragmentGalleryBinding
+import com.example.twigaroll.R
 import com.example.twigaroll.databinding.FragmentImageDetailBinding
-import kotlinx.android.synthetic.main.fragment_gallery.*
-import kotlinx.android.synthetic.main.fragment_image_detail.*
-import kotlinx.android.synthetic.main.tweet_entity_image.*
 
 class GalleryDetailFragment : Fragment() {
     private lateinit var binding: FragmentImageDetailBinding

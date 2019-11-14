@@ -3,6 +3,8 @@ package com.example.twigaroll
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.twigaroll.home.HomeActivity
+import com.example.twigaroll.login.LoginActivity
 import com.twitter.sdk.android.core.*
 
 class MainActivity : AppCompatActivity() {

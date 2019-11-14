@@ -1,4 +1,4 @@
-package com.example.twigaroll
+package com.example.twigaroll.home.gallery
 
 import androidx.fragment.app.Fragment
 
