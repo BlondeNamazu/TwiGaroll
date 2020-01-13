@@ -1,7 +1,12 @@
 package com.example.twigaroll.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.twigaroll.*
@@ -15,6 +20,8 @@ class HomeActivity : AppCompatActivity(), GalleryNavigator {
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var galleryViewModel: GalleryViewModel
 
+    private val WRITE_REQUEST_CODE = 2000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -24,9 +31,8 @@ class HomeActivity : AppCompatActivity(), GalleryNavigator {
             HomeFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
 
-        timelineViewModel = obtainTimelineViewModel()
-        galleryViewModel = obtainGalleryViewModel()
-        galleryViewModel.setNavigator(this)
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
+
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
@@ -39,5 +45,44 @@ class HomeActivity : AppCompatActivity(), GalleryNavigator {
         supportFragmentManager.beginTransaction()
             .add(resourceId, fragment)
             .commit()
+    }
+
+    private fun checkPermission(permission: String, requestCode: Int) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                permission
+            )
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission), requestCode
+            )
+        } else {
+            Toast.makeText(this, "Permission needed", Toast.LENGTH_SHORT).show()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission), requestCode
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode){
+            WRITE_REQUEST_CODE -> {
+                if(grantResults.first()==PackageManager.PERMISSION_GRANTED){
+                    Log.d("Namazu","permission granted")
+                    timelineViewModel = obtainTimelineViewModel()
+                    galleryViewModel = obtainGalleryViewModel()
+                    galleryViewModel.setNavigator(this)
+
+                }else{
+                    Log.d("Namazu","permission refused")
+                }
+            }
+        }
     }
 }
