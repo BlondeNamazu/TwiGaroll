@@ -3,23 +3,22 @@ package com.example.twigaroll.util
 import android.content.Context
 import android.os.Environment
 import android.util.Log
+import com.example.twigaroll.R
 import java.io.*
+import javax.inject.Inject
 
-object FileIO {
-
-    val PARENT_DIR = "TwiGaroll"
-    val FILE_NAME = "tweetIDs"
+class FileIORepository @Inject constructor() {
 
     fun readFile(context: Context?): String {
         if(context==null) Log.d("Namazu","context is null")
         context ?: return ""
         val parentDir = File(
             context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-            PARENT_DIR
+            context.getString(R.string.app_name)
         )
         val file = File(
             parentDir,
-            FILE_NAME
+            context.getString(R.string.tweet_id_file_name)
         )
         if (!file.exists()) return ""
         return if (isExternalStorageReadable(file)) {
@@ -36,11 +35,11 @@ object FileIO {
         context ?: return
         val parentDir = File(
             context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-            PARENT_DIR
+            context.getString(R.string.app_name)
         )
         val file = File(
             parentDir,
-            FILE_NAME
+            context.getString(R.string.tweet_id_file_name)
         )
         if(!file.exists()) {
             parentDir.mkdirs()

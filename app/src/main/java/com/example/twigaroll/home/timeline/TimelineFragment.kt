@@ -10,6 +10,7 @@ import com.example.twigaroll.R
 import com.example.twigaroll.databinding.FragmentHomeBinding
 import com.example.twigaroll.home.HomeActivity
 import com.twitter.sdk.android.core.models.Tweet
+import dagger.Component
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class TimelineFragment : Fragment() {
@@ -19,7 +20,7 @@ class TimelineFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = TweetAdapter(requireContext())
+        adapter = DaggerTimelineFragment_TweetAdapterFactory.create().make()
         timeline_listview.adapter = adapter
         binding.viewModel?.tweetList?.observe(this, Observer<List<Tweet>> {
             adapter.replaceList(it)
@@ -47,4 +48,8 @@ class TimelineFragment : Fragment() {
         return view
     }
 
+    @Component
+    interface TweetAdapterFactory {
+        fun make() : TweetAdapter
+    }
 }

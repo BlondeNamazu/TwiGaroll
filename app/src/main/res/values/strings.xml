@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TwiGaroll</string>
+    <string name="tweet_id_file_name">tweetIDs</string>
 </resources>
