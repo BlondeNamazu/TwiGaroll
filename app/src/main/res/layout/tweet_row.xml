@@ -68,12 +68,23 @@
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
+        <Button
+            android:id="@+id/stock_button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
+            android:text="stock"
+            android:textSize="8sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+
         <ImageView
             android:id="@+id/embedded_image"
             android:layout_width="400dp"
             android:layout_height="400dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
             app:imageUrl="@{tweet.entities.media[0].mediaUrlHttps}"
             app:layout_constraintLeft_toLeftOf="parent"

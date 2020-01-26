@@ -21,7 +21,7 @@ class TimelineViewModel : ViewModel() {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
 
-        val call = statusesService.homeTimeline(20, null, null, null, null, null, null)
+        val call = statusesService.homeTimeline(200, null, null, null, null, null, null)
 
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>?) {
