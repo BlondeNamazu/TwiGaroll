@@ -12,6 +12,7 @@ import com.example.twigaroll.home.HomeActivity
 import com.twitter.sdk.android.core.models.Tweet
 import dagger.Component
 import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Singleton
 
 class TimelineFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -48,7 +49,8 @@ class TimelineFragment : Fragment() {
         return view
     }
 
-    @Component
+    @Singleton
+    @Component(modules = [RepositoryModule::class])
     interface TweetAdapterFactory {
         fun make() : TweetAdapter
     }

@@ -15,13 +15,13 @@ import com.squareup.moshi.Moshi
 import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject
 
-
-class TweetAdapter @Inject constructor() :
+class TweetAdapter @Inject constructor(
+    val fileIORepository: FileIORepository
+) :
     BaseAdapter() {
     private var tweetList = emptyList<Tweet>()
     val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val converter: JsonAdapter<TweetIdData> = moshi.adapter(TweetIdData::class.java)
-    @Inject lateinit var fileIORepository: FileIORepository
 
     override fun getCount(): Int {
         return tweetList.size
