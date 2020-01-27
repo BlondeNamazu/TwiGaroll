@@ -52,7 +52,7 @@ class TweetAdapter @Inject constructor(
                 } else {
                     converter.fromJson(json) ?: TweetIdData(emptyArray())
                 }
-                tweetList[position].entities.media.forEach{media ->
+                tweetList[position].entities.media.forEach { media ->
                     val url = media.mediaUrlHttps
                     if (data.mediaURLs.contains(url)) {
                         Log.d("Namazu", "This tweet has already registered")
@@ -61,7 +61,7 @@ class TweetAdapter @Inject constructor(
                     val newData = converter
                         .toJson(
                             TweetIdData(
-                                data.mediaURLs + arrayOf(url)
+                                arrayOf(url) + data.mediaURLs
                             )
                         )
                     Log.d("Namazu", newData)

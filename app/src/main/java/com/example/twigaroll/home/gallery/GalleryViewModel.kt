@@ -21,7 +21,6 @@ import com.twitter.sdk.android.core.models.Tweet
 import dagger.Component
 import javax.inject.Inject
 
-@Component
 class GalleryViewModel @Inject constructor(
     private val fileIORepository: FileIORepository
 ) : ViewModel() {

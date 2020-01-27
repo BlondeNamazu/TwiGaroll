@@ -5,20 +5,25 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
+import com.example.twigaroll.home.gallery.GalleryViewModelFactory
 import com.example.twigaroll.home.timeline.TimelineViewModel
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import javax.inject.Inject
 
-class HomeActivity : AppCompatActivity(), GalleryNavigator {
+class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
 
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var galleryViewModel: GalleryViewModel
+
+    @Inject
+    lateinit var viewModelFactory: GalleryViewModelFactory
 
     private val WRITE_REQUEST_CODE = 2000
 
@@ -39,7 +44,7 @@ class HomeActivity : AppCompatActivity(), GalleryNavigator {
         ViewModelProviders.of(this).get(TimelineViewModel::class.java)
 
     fun obtainGalleryViewModel(): GalleryViewModel =
-        ViewModelProviders.of(this).get(GalleryViewModel::class.java)
+        ViewModelProviders.of(this,viewModelFactory).get(GalleryViewModel::class.java)
 
     override fun addFragmentToActivity(resourceId: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction()
