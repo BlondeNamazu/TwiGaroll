@@ -16,7 +16,7 @@ import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject
 
 class TweetAdapter @Inject constructor(
-    val fileIORepository: FileIORepository
+    private val fileIORepository: FileIORepository
 ) :
     BaseAdapter() {
     private var tweetList = emptyList<Tweet>()
@@ -40,32 +40,34 @@ class TweetAdapter @Inject constructor(
             val inflater = LayoutInflater.from(parent.context)
             val binding = TweetRowBinding.inflate(inflater, parent, false)
             binding.root.tag = binding
-            binding.stockButton.setOnClickListener {
-                val tweetID = tweetList[position].id
+            binding
+        } else {
+            convertView.tag as TweetRowBinding
+        }.apply {
+            tweet = tweetList[position]
+            stockButton.setOnClickListener {
                 val json = fileIORepository.readFile(parent.context)
                 val data = if (json.isEmpty()) {
                     TweetIdData(emptyArray())
                 } else {
                     converter.fromJson(json) ?: TweetIdData(emptyArray())
                 }
-                if (data.ids.contains(tweetID)) {
-                    Log.d("Namazu", "This tweet has already registered")
-                    return@setOnClickListener
-                } else Log.d("Namazu", "This tweet is new one!")
-                val newData = converter
-                    .toJson(
-                        TweetIdData(
-                            data.ids + arrayOf(tweetID)
+                tweetList[position].entities.media.forEach { media ->
+                    val url = media.mediaUrlHttps
+                    if (data.mediaURLs.contains(url)) {
+                        Log.d("Namazu", "This tweet has already registered")
+                        return@setOnClickListener
+                    } else Log.d("Namazu", "This tweet is new one!")
+                    val newData = converter
+                        .toJson(
+                            TweetIdData(
+                                arrayOf(url) + data.mediaURLs
+                            )
                         )
-                    )
-                Log.d("Namazu", newData)
-                fileIORepository.writeFile(parent.context, newData)
+                    Log.d("Namazu", newData)
+                    fileIORepository.writeFile(parent.context, newData)
+                }
             }
-            binding
-        } else {
-            convertView.tag as TweetRowBinding
-        }.apply {
-            tweet = tweetList[position]
         }
         return binding.root
     }

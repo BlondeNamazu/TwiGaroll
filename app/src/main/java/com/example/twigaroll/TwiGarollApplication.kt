@@ -1,13 +1,14 @@
 package com.example.twigaroll
 
-import android.app.Application
 import android.util.Log
 import com.twitter.sdk.android.core.DefaultLogger
 import com.twitter.sdk.android.core.Twitter
 import com.twitter.sdk.android.core.TwitterAuthConfig
 import com.twitter.sdk.android.core.TwitterConfig
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class TwiGarollApplication : Application() {
+class TwiGarollApplication : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -23,5 +24,9 @@ class TwiGarollApplication : Application() {
             .debug(true)
             .build()
         Twitter.initialize(config)
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().create(this)
     }
 }
