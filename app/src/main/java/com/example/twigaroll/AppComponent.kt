@@ -1,6 +1,5 @@
 package com.example.twigaroll
 
-import com.example.twigaroll.home.timeline.RepositoryModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

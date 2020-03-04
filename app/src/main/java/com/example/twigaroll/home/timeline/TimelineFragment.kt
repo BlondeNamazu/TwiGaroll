@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.twigaroll.R
+import com.example.twigaroll.RepositoryModule
 import com.example.twigaroll.databinding.FragmentHomeBinding
 import com.example.twigaroll.home.HomeActivity
 import com.twitter.sdk.android.core.models.Tweet
