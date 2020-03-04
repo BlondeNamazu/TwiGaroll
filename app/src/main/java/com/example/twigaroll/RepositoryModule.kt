@@ -1,4 +1,4 @@
-package com.example.twigaroll.home.timeline
+package com.example.twigaroll
 
 import com.example.twigaroll.util.FileIORepository
 import com.example.twigaroll.util.FileIORepositoryImpl

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
-import com.example.twigaroll.home.gallery.GalleryViewModelFactory
+import com.example.twigaroll.ViewModelFactory
 import com.example.twigaroll.home.timeline.TimelineViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
@@ -23,7 +23,7 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
     private lateinit var galleryViewModel: GalleryViewModel
 
     @Inject
-    lateinit var viewModelFactory: GalleryViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val WRITE_REQUEST_CODE = 2000
 
