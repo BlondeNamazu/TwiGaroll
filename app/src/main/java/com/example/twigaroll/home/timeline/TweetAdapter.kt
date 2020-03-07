@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Toast
 import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.TweetRowBinding
 import com.example.twigaroll.util.FileIORepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
+import com.twitter.sdk.android.core.Callback
+import com.twitter.sdk.android.core.Result
+import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.TwitterException
 
 import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject
@@ -45,6 +50,8 @@ class TweetAdapter @Inject constructor(
             convertView.tag as TweetRowBinding
         }.apply {
             tweet = tweetList[position]
+            favCount = tweetList[position].favoriteCount - if(tweetList[position].favorited) 1 else  0
+            favorited = tweetList[position].favorited
             stockButton.setOnClickListener {
                 val json = fileIORepository.readFile(parent.context)
                 val data = if (json.isEmpty()) {
@@ -67,6 +74,43 @@ class TweetAdapter @Inject constructor(
                     Log.d("Namazu", newData)
                     fileIORepository.writeFile(parent.context, newData)
                 }
+            }
+            favButton.setOnClickListener {
+                val twitterApiClient = TwitterCore.getInstance().apiClient
+                val statusesService = twitterApiClient.favoriteService
+
+                if(favorited){
+                    val call = statusesService.destroy(tweetList[position].id,false)
+
+                    call.enqueue(object: Callback<Tweet>(){
+                        override fun success(result: Result<Tweet>?) {
+                            Log.d("Namazu", "success to unfav! contents:${result?.data?.text}")
+                            Toast.makeText(parent.context,"Unfav succeed!",Toast.LENGTH_LONG).show()
+                            favorited = false
+                        }
+
+                        override fun failure(exception: TwitterException?) {
+                            Log.d("Namazu", "failed to unfav...")
+                            Toast.makeText(parent.context,"Unfav failed: ${exception?.message}",Toast.LENGTH_LONG).show()
+                        }
+                    })
+                } else {
+                    val call = statusesService.create(tweetList[position].id,false)
+
+                    call.enqueue(object: Callback<Tweet>(){
+                        override fun success(result: Result<Tweet>?) {
+                            Log.d("Namazu", "success to fav! contents:${result?.data?.text}")
+                            Toast.makeText(parent.context,"Fav succeed!",Toast.LENGTH_LONG).show()
+                            favorited = true
+                        }
+
+                        override fun failure(exception: TwitterException?) {
+                            Log.d("Namazu", "failed to fav...")
+                            Toast.makeText(parent.context,"Fav failed: ${exception?.message}",Toast.LENGTH_LONG).show()
+                        }
+                    })
+                }
+
             }
         }
         return binding.root

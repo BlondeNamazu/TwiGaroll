@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -7,6 +10,12 @@
         <variable
             name="tweet"
             type="com.twitter.sdk.android.core.models.Tweet" />
+        <variable
+            name="favorited"
+            type="boolean" />
+        <variable
+            name="fav_count"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -44,6 +53,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{`@` + tweet.user.screenName}"
+            tools:text="screenName"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/profile_image"
             app:layout_constraintLeft_toRightOf="@id/profile_image" />
@@ -54,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@{tweet.text}"
+            tools:text="tweet text tweet text tweet text"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintTop_toBottomOf="@id/profile_image" />
@@ -63,10 +74,22 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:text="@{`Fav: ` + tweet.favoriteCount.toString() + ` Retweet: ` + tweet.retweetCount}"
+            android:text="@{`Fav: ` + (fav_count + (favorited?1:0)) + ` Retweet: ` + tweet.retweetCount}"
+            tools:text="tweet text tweet text tweet text"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/retweet_count"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:text="@{`Fav: ${favCount + favorited?1:0} Retweet: ` + tweet.retweetCount}"-->
+<!--            tools:text="tweet text tweet text tweet text"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/favorite_count"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tweet_text" />-->
 
         <Button
             android:id="@+id/stock_button"
@@ -77,6 +100,16 @@
             android:text="stock"
             android:textSize="8sp"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+
+        <Button
+            android:id="@+id/fav_button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:text="@{favorited ? &quot;unfav&quot; : &quot;fav&quot; }"
+            android:textSize="8sp"
+            app:layout_constraintRight_toLeftOf="@id/stock_button"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
         <ImageView
