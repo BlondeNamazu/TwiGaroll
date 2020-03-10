@@ -26,10 +26,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/profile_image"
+            tools:src="@drawable/stock_1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:imageUrl="@{tweet.user.profileImageUrlHttps}"
@@ -75,15 +77,40 @@
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
+        <ImageButton
+            android:id="@+id/fav_button"
+            android:src="@{favorited ? @drawable/fav_1 : @drawable/fav_0}"
+            tools:src="@drawable/fav_1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:scaleType="fitCenter"
+            android:background="#F8F8F8"
+            app:layout_constraintLeft_toLeftOf="@id/user_screenname"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+
         <TextView
             android:id="@+id/favorite_count"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:text="@{`Fav: ` + (fav_count + (favorited?1:0))}"
-            tools:text="Fav: 3"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:textAlignment="center"
+            android:text="@{` `+(fav_count + (favorited?1:0))}"
+            tools:text="3000"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@id/fav_button"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+
+        <ImageButton
+            android:id="@+id/retweet_button"
+            android:src="@{retweeted ? @drawable/ret_1 : @drawable/ret_0}"
+            tools:src="@drawable/ret_1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:scaleType="fitCenter"
+            android:background="#F8F8F8"
+            app:layout_constraintLeft_toRightOf="@id/favorite_count"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
         <TextView
@@ -91,49 +118,33 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:text="@{`Retweet: ` + (ret_count + (retweeted?1:0))}"
-            tools:text="Retweet: 5"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toRightOf="@id/favorite_count"
+            android:textAlignment="center"
+            android:text="@{` `+(ret_count + (retweeted?1:0))}"
+            tools:text="5000"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@id/retweet_button"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
-        <Button
+        <ImageButton
             android:id="@+id/stock_button"
-            android:layout_width="wrap_content"
+            android:src="@drawable/stock_1"
+            tools:src="@drawable/stock_1"
+            android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
+            android:textAlignment="center"
+            android:scaleType="fitCenter"
+            android:background="#F8F8F8"
             android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
-            android:text="stock"
-            android:textSize="8sp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
 
-        <Button
-            android:id="@+id/fav_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:text="@{favorited ? &quot;unfav&quot; : &quot;fav&quot; }"
-            tools:text="fav"
-            android:textSize="8sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/favorite_count" />
-
-        <Button
-            android:id="@+id/retweet_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:text="@{retweeted ? &quot;unretweet&quot; : &quot;retweet&quot; }"
-            tools:text="retweet"
-            android:textSize="8sp"
-            app:layout_constraintLeft_toRightOf="@id/fav_button"
-            app:layout_constraintTop_toBottomOf="@id/favorite_count" />
-
         <ImageView
             android:id="@+id/embedded_image"
+            tools:src="@drawable/stock_1"
             android:layout_width="400dp"
             android:layout_height="400dp"
+            android:layout_margin="8dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
