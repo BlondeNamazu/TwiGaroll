@@ -15,13 +15,13 @@
             type="boolean" />
         <variable
             name="fav_count"
-            type="int" />
+            type="String" />
         <variable
             name="retweeted"
             type="boolean" />
         <variable
             name="ret_count"
-            type="int" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -91,12 +91,12 @@
 
         <TextView
             android:id="@+id/favorite_count"
-            android:layout_width="wrap_content"
+            android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:textAlignment="center"
-            android:text="@{` `+(fav_count + (favorited?1:0))}"
-            tools:text="3000"
+            android:textAlignment="textStart"
+            android:text="@{fav_count}"
+            tools:text="888k"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/fav_button"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />
@@ -115,12 +115,12 @@
 
         <TextView
             android:id="@+id/retweet_count"
-            android:layout_width="wrap_content"
+            android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:textAlignment="center"
-            android:text="@{` `+(ret_count + (retweeted?1:0))}"
-            tools:text="5000"
+            android:textAlignment="textStart"
+            android:text="@{ret_count}"
+            tools:text="19"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/retweet_button"
             app:layout_constraintTop_toBottomOf="@id/tweet_text" />

@@ -50,11 +50,13 @@ class TweetAdapter @Inject constructor(
             convertView.tag as TweetRowBinding
         }.apply {
             tweet = tweetList[position]
-            favCount =
+            val intFavCount =
                 tweetList[position].favoriteCount - if (tweetList[position].favorited) 1 else 0
+            favCount = if(intFavCount >= 1000) "${intFavCount/1000}k" else "$intFavCount"
             favorited = tweetList[position].favorited
-            retCount =
+            val intRetweetCount =
                 tweetList[position].retweetCount - if (tweetList[position].retweeted) 1 else 0
+            retCount = if(intRetweetCount >= 1000) "${intRetweetCount/1000}k" else "$intRetweetCount"
             retweeted = tweetList[position].retweeted
             stockButton.setOnClickListener {
                 val json = fileIORepository.readFile(parent.context)
