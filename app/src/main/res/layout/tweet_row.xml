@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="tweet"
             type="com.twitter.sdk.android.core.models.Tweet" />
+
         <variable
             name="favorited"
             type="boolean" />
+
         <variable
-            name="fav_count"
-            type="String" />
+            name="fav_count_without_self"
+            type="int" />
+
         <variable
             name="retweeted"
             type="boolean" />
+
         <variable
-            name="ret_count"
-            type="String" />
+            name="ret_count_without_self"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,12 +34,12 @@
 
         <ImageView
             android:id="@+id/profile_image"
-            tools:src="@drawable/stock_1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:imageUrl="@{tweet.user.profileImageUrlHttps}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/stock_1" />
 
         <TextView
             android:id="@+id/user_name"
@@ -61,10 +64,10 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{`@` + tweet.user.screenName}"
-            tools:text="screenName"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/profile_image"
-            app:layout_constraintLeft_toRightOf="@id/profile_image" />
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            tools:text="screenName" />
 
         <TextView
             android:id="@+id/tweet_text"
@@ -72,76 +75,75 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@{tweet.text}"
-            tools:text="tweet text tweet text tweet text"
             android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
-            app:layout_constraintTop_toBottomOf="@id/profile_image" />
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            tools:text="tweet text tweet text tweet text" />
 
         <ImageButton
             android:id="@+id/fav_button"
-            android:src="@{favorited ? @drawable/fav_1 : @drawable/fav_0}"
-            tools:src="@drawable/fav_1"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:scaleType="fitCenter"
             android:background="#F8F8F8"
+            android:scaleType="fitCenter"
+            android:src="@{favorited ? @drawable/fav_1 : @drawable/fav_0}"
             app:layout_constraintLeft_toLeftOf="@id/user_screenname"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:src="@drawable/fav_1" />
 
         <TextView
             android:id="@+id/favorite_count"
             android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
+            android:text="@{(fav_count_without_self + (favorited ? 1 : 0))>=1000 ? (Integer.toString(fav_count_without_self + (favorited ? 1 : 0)/1000)+&quot;k&quot;) : Integer.toString(fav_count_without_self + (favorited ? 1 : 0))}"
             android:textAlignment="textStart"
-            android:text="@{fav_count}"
-            tools:text="888k"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/fav_button"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:text="888k" />
 
         <ImageButton
             android:id="@+id/retweet_button"
-            android:src="@{retweeted ? @drawable/ret_1 : @drawable/ret_0}"
-            tools:src="@drawable/ret_1"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:scaleType="fitCenter"
             android:background="#F8F8F8"
+            android:scaleType="fitCenter"
+            android:src="@{retweeted ? @drawable/ret_1 : @drawable/ret_0}"
             app:layout_constraintLeft_toRightOf="@id/favorite_count"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:src="@drawable/ret_1" />
 
         <TextView
             android:id="@+id/retweet_count"
             android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
+            android:text="@{(ret_count_without_self + (retweeted ? 1 : 0))>=1000 ? (Integer.toString(ret_count_without_self + (retweeted ? 1 : 0)/1000)+&quot;k&quot;) : Integer.toString(ret_count_without_self + (retweeted ? 1 : 0))}"
             android:textAlignment="textStart"
-            android:text="@{ret_count}"
-            tools:text="19"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/retweet_button"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:text="19" />
 
         <ImageButton
             android:id="@+id/stock_button"
-            android:src="@drawable/stock_1"
-            tools:src="@drawable/stock_1"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:textAlignment="center"
-            android:scaleType="fitCenter"
             android:background="#F8F8F8"
+            android:scaleType="fitCenter"
+            android:src="@drawable/stock_1"
+            android:textAlignment="center"
             android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text" />
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:src="@drawable/stock_1" />
 
         <ImageView
             android:id="@+id/embedded_image"
-            tools:src="@drawable/stock_1"
             android:layout_width="400dp"
             android:layout_height="400dp"
             android:layout_margin="8dp"
@@ -151,7 +153,8 @@
             app:imageUrl="@{tweet.entities.media[0].mediaUrlHttps}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fav_button" />
+            app:layout_constraintTop_toBottomOf="@id/fav_button"
+            tools:src="@drawable/stock_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

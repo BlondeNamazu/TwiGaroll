@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.TweetRowBinding
 import com.example.twigaroll.util.FileIORepository
+import com.example.twigaroll.util.TweetRequestRepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
@@ -21,10 +26,11 @@ import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject
 
 class TweetAdapter @Inject constructor(
-    private val fileIORepository: FileIORepository
+    private val fileIORepository: FileIORepository,
+    private val tweetRequestRepository: TweetRequestRepository
 ) :
     BaseAdapter() {
-    private var tweetList = emptyList<Tweet>()
+    var tweetList = emptyList<Tweet>().toMutableList()
     val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val converter: JsonAdapter<TweetIdData> = moshi.adapter(TweetIdData::class.java)
 
@@ -50,13 +56,11 @@ class TweetAdapter @Inject constructor(
             convertView.tag as TweetRowBinding
         }.apply {
             tweet = tweetList[position]
-            val intFavCount =
+            favCountWithoutSelf =
                 tweetList[position].favoriteCount - if (tweetList[position].favorited) 1 else 0
-            favCount = if(intFavCount >= 1000) "${intFavCount/1000}k" else "$intFavCount"
             favorited = tweetList[position].favorited
-            val intRetweetCount =
+            retCountWithoutSelf =
                 tweetList[position].retweetCount - if (tweetList[position].retweeted) 1 else 0
-            retCount = if(intRetweetCount >= 1000) "${intRetweetCount/1000}k" else "$intRetweetCount"
             retweeted = tweetList[position].retweeted
             stockButton.setOnClickListener {
                 val json = fileIORepository.readFile(parent.context)
@@ -65,7 +69,7 @@ class TweetAdapter @Inject constructor(
                 } else {
                     converter.fromJson(json) ?: TweetIdData(emptyArray())
                 }
-                tweetList[position].entities.media.forEach { media ->
+                tweet!!.entities.media.forEach { media ->
                     val url = media.mediaUrlHttps
                     if (data.mediaURLs.contains(url)) {
                         Log.d("Namazu", "This tweet has already registered")
@@ -82,94 +86,26 @@ class TweetAdapter @Inject constructor(
                 }
             }
             favButton.setOnClickListener {
-                val twitterApiClient = TwitterCore.getInstance().apiClient
-                val statusesService = twitterApiClient.favoriteService
+                val thisTweet = tweet ?: return@setOnClickListener
 
                 if (favorited) {
-                    val call = statusesService.destroy(tweetList[position].id, false)
-
-                    call.enqueue(object : Callback<Tweet>() {
-                        override fun success(result: Result<Tweet>?) {
-                            Log.d("Namazu", "success to unfav! contents:${result?.data?.text}")
-                            Toast.makeText(parent.context, "Unfav succeed!", Toast.LENGTH_LONG)
-                                .show()
-                            favorited = false
-                        }
-
-                        override fun failure(exception: TwitterException?) {
-                            Log.d("Namazu", "failed to unfav...")
-                            Toast.makeText(
-                                parent.context,
-                                "Unfav failed: ${exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    })
+                    tweetRequestRepository.postUnlike(thisTweet.id)
+                    favorited = false
                 } else {
-                    val call = statusesService.create(tweetList[position].id, false)
-
-                    call.enqueue(object : Callback<Tweet>() {
-                        override fun success(result: Result<Tweet>?) {
-                            Log.d("Namazu", "success to fav! contents:${result?.data?.text}")
-                            Toast.makeText(parent.context, "Fav succeed!", Toast.LENGTH_LONG).show()
-                            favorited = true
-                        }
-
-                        override fun failure(exception: TwitterException?) {
-                            Log.d("Namazu", "failed to fav...")
-                            Toast.makeText(
-                                parent.context,
-                                "Fav failed: ${exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    })
+                    tweetRequestRepository.postLike(thisTweet.id)
+                    favorited = true
                 }
 
             }
             retweetButton.setOnClickListener {
-                val twitterApiClient = TwitterCore.getInstance().apiClient
-                val statusesService = twitterApiClient.statusesService
+                val thisTweet = tweet ?: return@setOnClickListener
 
                 if (retweeted) {
-                    val call = statusesService.unretweet(tweetList[position].id, false)
-
-                    call.enqueue(object : Callback<Tweet>() {
-                        override fun success(result: Result<Tweet>?) {
-                            Log.d("Namazu", "success to unretweet! contents:${result?.data?.text}")
-                            Toast.makeText(parent.context, "Unretweet succeed!", Toast.LENGTH_LONG)
-                                .show()
-                            retweeted = false
-                        }
-
-                        override fun failure(exception: TwitterException?) {
-                            Log.d("Namazu", "failed to unretweet...")
-                            Toast.makeText(
-                                parent.context,
-                                "Unretweet failed: ${exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    })
+                    tweetRequestRepository.postUnretweet(thisTweet.id)
+                    retweeted = false
                 } else {
-                    val call = statusesService.retweet(tweetList[position].id,false)
-
-                    call.enqueue(object : Callback<Tweet>() {
-                        override fun success(result: Result<Tweet>?) {
-                            Log.d("Namazu", "success to ret! contents:${result?.data?.text}")
-                            Toast.makeText(parent.context, "Retweet succeed!", Toast.LENGTH_LONG).show()
-                            retweeted = true
-                        }
-
-                        override fun failure(exception: TwitterException?) {
-                            Log.d("Namazu", "failed to retweet...")
-                            Toast.makeText(
-                                parent.context,
-                                "Retweet failed: ${exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    })
+                    tweetRequestRepository.postRetweet(thisTweet.id)
+                    retweeted = true
                 }
             }
         }
@@ -177,6 +113,7 @@ class TweetAdapter @Inject constructor(
     }
 
     fun replaceList(newList: List<Tweet>) {
-        tweetList = newList
+        tweetList = newList.toMutableList()
     }
+
 }
