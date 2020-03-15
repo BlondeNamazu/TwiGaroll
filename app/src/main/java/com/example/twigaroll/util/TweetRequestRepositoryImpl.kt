@@ -1,14 +1,8 @@
 package com.example.twigaroll.util
 
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository {
@@ -21,68 +15,48 @@ class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository 
         return call.execute().body()
     }
 
-    override fun postLike(tweetId: Long) {
+    override suspend fun postLike(tweetId: Long): Tweet {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val favoriteService = twitterApiClient.favoriteService
-        val call = favoriteService.create(tweetId, false)
+        val call = favoriteService.create(tweetId, true)
 
-        call.enqueue(object : Callback<Tweet>() {
-            override fun success(result: Result<Tweet>?) {
-                Log.d("Namazu", "success to fav! contents:${result?.data?.text}")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to fav...")
-            }
-        })
+        return call.execute().body()
     }
 
-    override fun postUnlike(tweetId: Long) {
+    override suspend fun postUnlike(tweetId: Long): Tweet {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val favoriteService = twitterApiClient.favoriteService
-        val call = favoriteService.destroy(tweetId, false)
+        val call = favoriteService.destroy(tweetId, true)
 
-        call.enqueue(object : Callback<Tweet>() {
-            override fun success(result: Result<Tweet>?) {
-                Log.d("Namazu", "success to unfav! contents:${result?.data?.text}")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to unfav...")
-            }
-        })
+        return call.execute().body()
     }
 
-    override fun postRetweet(tweetId: Long) {
+    override suspend fun postRetweet(tweetId: Long): Tweet {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.retweet(tweetId, false)
-
-        call.enqueue(object : Callback<Tweet>() {
-            override fun success(result: Result<Tweet>?) {
-                Log.d("Namazu", "success to retweet! contents:${result?.data?.text}")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to retweet...")
-            }
-        })
+        return runBlocking {
+            statusesService
+                .retweet(tweetId, false)
+                .execute()
+            statusesService
+                .show(tweetId, false, true, true)
+                .execute()
+                .body()
+        }
     }
 
-    override fun postUnretweet(tweetId: Long) {
+    override suspend fun postUnretweet(tweetId: Long): Tweet {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.unretweet(tweetId, false)
-
-        call.enqueue(object : Callback<Tweet>() {
-            override fun success(result: Result<Tweet>?) {
-                Log.d("Namazu", "success to unretweet! contents:${result?.data?.text}")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to unretweet...")
-            }
-        })
+        return runBlocking {
+            statusesService
+                .unretweet(tweetId, false)
+                .execute()
+            statusesService
+                .show(tweetId, false, true, true)
+                .execute()
+                .body()
+        }
     }
 
 

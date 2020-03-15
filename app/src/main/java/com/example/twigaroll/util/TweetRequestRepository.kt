@@ -4,8 +4,8 @@ import com.twitter.sdk.android.core.models.Tweet
 
 interface TweetRequestRepository {
     suspend fun getTimeLine(): List<Tweet>
-    fun postLike(tweetId: Long)
-    fun postUnlike(tweetId: Long)
-    fun postRetweet(tweetId: Long)
-    fun postUnretweet(tweetId: Long)
+    suspend fun postLike(tweetId: Long): Tweet
+    suspend fun postUnlike(tweetId: Long): Tweet
+    suspend fun postRetweet(tweetId: Long): Tweet
+    suspend fun postUnretweet(tweetId: Long): Tweet
 }

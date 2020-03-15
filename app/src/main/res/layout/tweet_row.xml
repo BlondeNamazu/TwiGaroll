@@ -10,21 +10,6 @@
             name="tweet"
             type="com.twitter.sdk.android.core.models.Tweet" />
 
-        <variable
-            name="favorited"
-            type="boolean" />
-
-        <variable
-            name="fav_count_without_self"
-            type="int" />
-
-        <variable
-            name="retweeted"
-            type="boolean" />
-
-        <variable
-            name="ret_count_without_self"
-            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -87,7 +72,7 @@
             android:layout_margin="8dp"
             android:background="#F8F8F8"
             android:scaleType="fitCenter"
-            android:src="@{favorited ? @drawable/fav_1 : @drawable/fav_0}"
+            android:src="@{tweet.favorited ? @drawable/fav_1 : @drawable/fav_0}"
             app:layout_constraintLeft_toLeftOf="@id/user_screenname"
             app:layout_constraintTop_toBottomOf="@id/tweet_text"
             tools:src="@drawable/fav_1" />
@@ -97,7 +82,7 @@
             android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:text="@{(fav_count_without_self + (favorited ? 1 : 0))>=1000 ? (Integer.toString(fav_count_without_self + (favorited ? 1 : 0)/1000)+&quot;k&quot;) : Integer.toString(fav_count_without_self + (favorited ? 1 : 0))}"
+            android:text="@{tweet.favoriteCount>=1000 ? (Integer.toString(tweet.favoriteCount/1000)+&quot;k&quot;) : Integer.toString(tweet.favoriteCount)}"
             android:textAlignment="textStart"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/fav_button"
@@ -111,7 +96,7 @@
             android:layout_margin="8dp"
             android:background="#F8F8F8"
             android:scaleType="fitCenter"
-            android:src="@{retweeted ? @drawable/ret_1 : @drawable/ret_0}"
+            android:src="@{tweet.retweeted ? @drawable/ret_1 : @drawable/ret_0}"
             app:layout_constraintLeft_toRightOf="@id/favorite_count"
             app:layout_constraintTop_toBottomOf="@id/tweet_text"
             tools:src="@drawable/ret_1" />
@@ -121,7 +106,7 @@
             android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
-            android:text="@{(ret_count_without_self + (retweeted ? 1 : 0))>=1000 ? (Integer.toString(ret_count_without_self + (retweeted ? 1 : 0)/1000)+&quot;k&quot;) : Integer.toString(ret_count_without_self + (retweeted ? 1 : 0))}"
+            android:text="@{tweet.retweetCount>=1000 ? (Integer.toString(tweet.retweetCount/1000)+&quot;k&quot;) : Integer.toString(tweet.retweetCount)}"
             android:textAlignment="textStart"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@id/retweet_button"
