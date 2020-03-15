@@ -5,11 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.TweetRowBinding
 import com.example.twigaroll.util.FileIORepository
@@ -17,10 +12,6 @@ import com.example.twigaroll.util.TweetRequestRepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
 
 import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject

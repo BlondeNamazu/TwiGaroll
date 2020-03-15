@@ -1,39 +1,27 @@
 package com.example.twigaroll.home.timeline
 
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
+import androidx.lifecycle.*
+import com.example.twigaroll.util.TweetRequestRepository
 import com.twitter.sdk.android.core.models.Tweet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TimelineViewModel : ViewModel() {
+class TimelineViewModel @Inject constructor(
+    private val tweetRequestRepository: TweetRequestRepository
+) : ViewModel() {
 
     private val _tweetList = MutableLiveData<List<Tweet>>()
     val tweetList: LiveData<List<Tweet>>
         get() = _tweetList
 
     fun refreshTimeline(v: View) {
-        val twitterApiClient = TwitterCore.getInstance().apiClient
-        val statusesService = twitterApiClient.statusesService
-
-        val call = statusesService.homeTimeline(200, null, null, null, null, null, null)
-
-        call.enqueue(object : Callback<List<Tweet>>() {
-            override fun success(result: Result<List<Tweet>>?) {
-                result ?: return
-                _tweetList.value = result.data
-                Log.d("Namazu", "success to get timeline")
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _tweetList.postValue(tweetRequestRepository.getTimeLine())
             }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to get timeline")
-            }
-        })
-
+        }
     }
 }

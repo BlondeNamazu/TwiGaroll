@@ -12,25 +12,13 @@ import com.twitter.sdk.android.core.models.Tweet
 import javax.inject.Inject
 
 class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository {
-    override fun getTimeLine(): LiveData<List<Tweet>> {
+    override suspend fun getTimeLine(): List<Tweet> {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
 
         val call = statusesService.homeTimeline(200, null, null, null, null, null, null)
-        val data = MutableLiveData<List<Tweet>>()
 
-        call.enqueue(object : Callback<List<Tweet>>() {
-            override fun success(result: Result<List<Tweet>>?) {
-                result ?: return
-                data.value = result.data
-                Log.d("Namazu", "success to get timeline")
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Log.d("Namazu", "failed to get timeline")
-            }
-        })
-        return data
+        return call.execute().body()
     }
 
     override fun postLike(tweetId: Long) {

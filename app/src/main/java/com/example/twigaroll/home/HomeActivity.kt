@@ -41,7 +41,7 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
-        ViewModelProviders.of(this).get(TimelineViewModel::class.java)
+        ViewModelProviders.of(this,viewModelFactory).get(TimelineViewModel::class.java)
 
     fun obtainGalleryViewModel(): GalleryViewModel =
         ViewModelProviders.of(this,viewModelFactory).get(GalleryViewModel::class.java)
