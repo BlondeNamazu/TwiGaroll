@@ -53,6 +53,6 @@ class TimelineFragment : Fragment() {
     @Singleton
     @Component(modules = [RepositoryModule::class])
     interface TweetAdapterFactory {
-        fun make() : TweetAdapter
+        fun make(): TweetAdapter
     }
 }

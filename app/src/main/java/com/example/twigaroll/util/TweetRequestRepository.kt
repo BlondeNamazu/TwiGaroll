@@ -1,12 +1,11 @@
 package com.example.twigaroll.util
 
-import androidx.lifecycle.LiveData
 import com.twitter.sdk.android.core.models.Tweet
 
 interface TweetRequestRepository {
-    fun getTimeLine(): LiveData<List<Tweet>>
-    fun postLike(tweetId: Long)
-    fun postUnlike(tweetId: Long)
-    fun postRetweet(tweetId: Long)
-    fun postUnretweet(tweetId: Long)
+    suspend fun getTimeLine(): List<Tweet>
+    suspend fun postLike(tweetId: Long): Tweet
+    suspend fun postUnlike(tweetId: Long): Tweet
+    suspend fun postRetweet(tweetId: Long): Tweet
+    suspend fun postUnretweet(tweetId: Long): Tweet
 }

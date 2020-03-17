@@ -5,11 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.TweetRowBinding
 import com.example.twigaroll.util.FileIORepository
@@ -17,12 +12,9 @@ import com.example.twigaroll.util.TweetRequestRepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
 
 import com.twitter.sdk.android.core.models.Tweet
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class TweetAdapter @Inject constructor(
@@ -56,12 +48,6 @@ class TweetAdapter @Inject constructor(
             convertView.tag as TweetRowBinding
         }.apply {
             tweet = tweetList[position]
-            favCountWithoutSelf =
-                tweetList[position].favoriteCount - if (tweetList[position].favorited) 1 else 0
-            favorited = tweetList[position].favorited
-            retCountWithoutSelf =
-                tweetList[position].retweetCount - if (tweetList[position].retweeted) 1 else 0
-            retweeted = tweetList[position].retweeted
             stockButton.setOnClickListener {
                 val json = fileIORepository.readFile(parent.context)
                 val data = if (json.isEmpty()) {
@@ -88,24 +74,54 @@ class TweetAdapter @Inject constructor(
             favButton.setOnClickListener {
                 val thisTweet = tweet ?: return@setOnClickListener
 
-                if (favorited) {
-                    tweetRequestRepository.postUnlike(thisTweet.id)
-                    favorited = false
+                if (thisTweet.favorited) {
+                    GlobalScope.launch {
+                        runBlocking(Dispatchers.IO) {
+                            tweetList[position] = tweetRequestRepository.postUnlike(thisTweet.id)
+                        }
+                        withContext(Dispatchers.Main) {
+                            notifyDataSetChanged()
+                        }
+                    }
                 } else {
-                    tweetRequestRepository.postLike(thisTweet.id)
-                    favorited = true
+                    GlobalScope.launch {
+                        runBlocking(Dispatchers.IO) {
+                            tweetList[position] = tweetRequestRepository.postLike(thisTweet.id)
+                        }
+                        withContext(Dispatchers.Main) {
+                            notifyDataSetChanged()
+                        }
+                    }
                 }
 
             }
             retweetButton.setOnClickListener {
                 val thisTweet = tweet ?: return@setOnClickListener
 
-                if (retweeted) {
-                    tweetRequestRepository.postUnretweet(thisTweet.id)
-                    retweeted = false
+                if (thisTweet.retweeted) {
+                    Log.d("Namazu", "retweet -> unretweet")
+                    GlobalScope.launch {
+                        runBlocking(Dispatchers.IO) {
+                            tweetList[position] = tweetRequestRepository.postUnretweet(thisTweet.id)
+                            Log.d("Namazu", "retweeted : ${tweetList[position].retweeted}")
+                            Log.d("Namazu", "tweetId : ${tweetList[position].id}")
+                        }
+                        withContext(Dispatchers.Main) {
+                            notifyDataSetChanged()
+                        }
+                    }
                 } else {
-                    tweetRequestRepository.postRetweet(thisTweet.id)
-                    retweeted = true
+                    Log.d("Namazu", "unretweet -> retweet")
+                    GlobalScope.launch {
+                        runBlocking(Dispatchers.IO) {
+                            tweetList[position] = tweetRequestRepository.postRetweet(thisTweet.id)
+                            Log.d("Namazu", "retweeted : ${tweetList[position].retweeted}")
+                            Log.d("Namazu", "tweetId : ${tweetList[position].id}")
+                        }
+                        withContext(Dispatchers.Main) {
+                            notifyDataSetChanged()
+                        }
+                    }
                 }
             }
         }

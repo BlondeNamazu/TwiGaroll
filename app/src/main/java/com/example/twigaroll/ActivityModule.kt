@@ -7,6 +7,11 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityModule {
     @ActivityScoped
-    @ContributesAndroidInjector(modules = [GalleryModule::class])
+    @ContributesAndroidInjector(
+        modules = [
+            GalleryModule::class,
+            TimelineModule::class
+        ]
+    )
     internal abstract fun homeActivity(): HomeActivity
 }
