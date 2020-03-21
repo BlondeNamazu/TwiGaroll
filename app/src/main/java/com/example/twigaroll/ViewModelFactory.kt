@@ -1,4 +1,4 @@
-package com.example.twigaroll.home.gallery
+package com.example.twigaroll
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,7 +7,7 @@ import java.lang.RuntimeException
 import javax.inject.Inject
 import javax.inject.Provider
 
-class GalleryViewModelFactory @Inject constructor(
+class ViewModelFactory @Inject constructor(
     private val creators: Map<Class<out ViewModel>,
     @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {

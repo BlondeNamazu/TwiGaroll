@@ -10,11 +10,15 @@
             name="tweet"
             type="com.twitter.sdk.android.core.models.Tweet" />
 
+        <variable
+            name="belongToGallery"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="8dp">
 
         <ImageView
@@ -120,22 +124,20 @@
             android:layout_margin="8dp"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@drawable/stock_1"
+            android:src="@{belongToGallery ? @drawable/stock_1 : @drawable/stock_0}"
             android:textAlignment="center"
-            android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tweet_text"
             tools:src="@drawable/stock_1" />
 
         <ImageView
-            android:id="@+id/embedded_image"
+            android:id="@+id/embedded_image_0"
             android:layout_width="400dp"
             android:layout_height="400dp"
             android:layout_margin="8dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:visibility="@{tweet.entities.media.isEmpty() ? View.GONE : View.VISIBLE}"
-            app:imageUrl="@{tweet.entities.media[0].mediaUrlHttps}"
+            app:imageUrl="@{tweet.extendedEntities.media[0].mediaUrlHttps}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fav_button"
