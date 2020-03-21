@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tweet"
+            type="com.twitter.sdk.android.core.models.Tweet" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:imageUrl="@{tweet.user.profileImageUrlHttps}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/stock_1" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{tweet.user.name}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/user_screenname"
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            app:layout_constraintTop_toTopOf="@id/profile_image" />
+
+        <TextView
+            android:id="@+id/user_screenname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{`@` + tweet.user.screenName}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            tools:text="screenName" />
+
+        <TextView
+            android:id="@+id/tweet_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@{tweet.text}"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/profile_image"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            tools:text="tweet text tweet text tweet text" />
+
+        <ImageButton
+            android:id="@+id/fav_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@{tweet.favorited ? @drawable/fav_1 : @drawable/fav_0}"
+            app:layout_constraintLeft_toLeftOf="@id/user_screenname"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:src="@drawable/fav_1" />
+
+        <TextView
+            android:id="@+id/favorite_count"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:text="@{tweet.favoriteCount>=1000 ? (Integer.toString(tweet.favoriteCount/1000)+&quot;k&quot;) : Integer.toString(tweet.favoriteCount)}"
+            android:textAlignment="textStart"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@id/fav_button"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:text="888k" />
+
+        <ImageButton
+            android:id="@+id/retweet_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@{tweet.retweeted ? @drawable/ret_1 : @drawable/ret_0}"
+            app:layout_constraintLeft_toRightOf="@id/favorite_count"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:src="@drawable/ret_1" />
+
+        <TextView
+            android:id="@+id/retweet_count"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:text="@{tweet.retweetCount>=1000 ? (Integer.toString(tweet.retweetCount/1000)+&quot;k&quot;) : Integer.toString(tweet.retweetCount)}"
+            android:textAlignment="textStart"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toRightOf="@id/retweet_button"
+            app:layout_constraintTop_toBottomOf="@id/tweet_text"
+            tools:text="19" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
