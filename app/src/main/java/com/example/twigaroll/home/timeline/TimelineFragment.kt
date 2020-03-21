@@ -1,11 +1,13 @@
 package com.example.twigaroll.home.timeline
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twigaroll.R
 import com.example.twigaroll.RepositoryModule
 import com.example.twigaroll.databinding.FragmentHomeBinding
@@ -17,16 +19,16 @@ import javax.inject.Singleton
 
 class TimelineFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: TweetAdapter
+    private lateinit var adapter: TweetRecyclerAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         adapter = DaggerTimelineFragment_TweetAdapterFactory.create().make()
+        timeline_listview.layoutManager = LinearLayoutManager(context)
         timeline_listview.adapter = adapter
         binding.viewModel?.tweetList?.observe(this, Observer<List<Tweet>> {
-            adapter.replaceList(it)
-            adapter.notifyDataSetChanged()
+            adapter.replaceList(it, context)
         })
 
         timeline_refresh_layout.setOnRefreshListener {
@@ -53,6 +55,6 @@ class TimelineFragment : Fragment() {
     @Singleton
     @Component(modules = [RepositoryModule::class])
     interface TweetAdapterFactory {
-        fun make(): TweetAdapter
+        fun make(): TweetRecyclerAdapter
     }
 }
