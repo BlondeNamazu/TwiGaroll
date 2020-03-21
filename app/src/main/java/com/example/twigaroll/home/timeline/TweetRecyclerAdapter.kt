@@ -69,7 +69,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -89,7 +89,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -97,6 +97,8 @@ class TweetRecyclerAdapter @Inject constructor(
             is TimelineListItem.OneImageTweet -> {
                 val thisTweet = tweetListItem.tweet
                 (holder.binding as TweetRowImage1Binding).tweet = thisTweet
+                holder.binding.belongToGallery =
+                    belongToGallery(thisTweet, holder.binding.root.context)
                 holder.binding.favButton.setOnClickListener {
 
                     GlobalScope.launch {
@@ -115,7 +117,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -137,7 +139,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -164,7 +166,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -172,6 +174,8 @@ class TweetRecyclerAdapter @Inject constructor(
             is TimelineListItem.TwoImageTweet -> {
                 val thisTweet = tweetListItem.tweet
                 (holder.binding as TweetRowImage2Binding).tweet = thisTweet
+                holder.binding.belongToGallery =
+                    belongToGallery(thisTweet, holder.binding.root.context)
                 holder.binding.favButton.setOnClickListener {
 
                     GlobalScope.launch {
@@ -190,7 +194,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -212,7 +216,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -239,7 +243,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -247,6 +251,8 @@ class TweetRecyclerAdapter @Inject constructor(
             is TimelineListItem.ThreeImageTweet -> {
                 val thisTweet = tweetListItem.tweet
                 (holder.binding as TweetRowImage3Binding).tweet = thisTweet
+                holder.binding.belongToGallery =
+                    belongToGallery(thisTweet, holder.binding.root.context)
                 holder.binding.favButton.setOnClickListener {
 
                     GlobalScope.launch {
@@ -265,7 +271,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -287,7 +293,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -314,7 +320,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -322,6 +328,8 @@ class TweetRecyclerAdapter @Inject constructor(
             is TimelineListItem.FourImageTweet -> {
                 val thisTweet = tweetListItem.tweet
                 (holder.binding as TweetRowImage4Binding).tweet = thisTweet
+                holder.binding.belongToGallery =
+                    belongToGallery(thisTweet, holder.binding.root.context)
                 holder.binding.favButton.setOnClickListener {
 
                     GlobalScope.launch {
@@ -340,7 +348,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -362,7 +370,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -389,7 +397,7 @@ class TweetRecyclerAdapter @Inject constructor(
                                 }
                         }
                         withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
+                            notifyItemChanged(position)
                         }
                     }
                 }
@@ -418,30 +426,31 @@ class TweetRecyclerAdapter @Inject constructor(
         tweetList.clear()
         tweetList.addAll(
             newList.map {
-                if (it.entities.media.isEmpty()) {
+                val tweetToShow = it.retweetedStatus ?: it
+                if (tweetToShow.entities.media.isEmpty()) {
                     TimelineListItem.NoImageTweet(
-                        it
+                        tweetToShow
                     )
                 } else {
-                    when (it.extendedEntities.media.size) {
+                    when (tweetToShow.extendedEntities.media.size) {
                         1 -> TimelineListItem.OneImageTweet(
-                            it,
-                            belongToGallery(it, context)
+                            tweetToShow,
+                            belongToGallery(tweetToShow, context)
                         )
                         2 -> TimelineListItem.TwoImageTweet(
-                            it,
-                            belongToGallery(it, context)
+                            tweetToShow,
+                            belongToGallery(tweetToShow, context)
                         )
                         3 -> TimelineListItem.ThreeImageTweet(
-                            it,
-                            belongToGallery(it, context)
+                            tweetToShow,
+                            belongToGallery(tweetToShow, context)
                         )
                         4 -> TimelineListItem.FourImageTweet(
-                            it,
-                            belongToGallery(it, context)
+                            tweetToShow,
+                            belongToGallery(tweetToShow, context)
                         )
                         else -> TimelineListItem.NoImageTweet(
-                            it
+                            tweetToShow
                         )
                     }
                 }
