@@ -13,6 +13,7 @@ import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
 import com.example.twigaroll.ViewModelFactory
 import com.example.twigaroll.home.timeline.TimelineViewModel
+import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
@@ -35,16 +36,30 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         viewPager.adapter =
             HomeFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+                p0 ?: return
+                if (p0.position == 0) {
+                    timelineViewModel.toggleShouldBackToTimelineTop(true)
+                }
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+            }
+        })
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
 
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
-        ViewModelProviders.of(this,viewModelFactory).get(TimelineViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(TimelineViewModel::class.java)
 
     fun obtainGalleryViewModel(): GalleryViewModel =
-        ViewModelProviders.of(this,viewModelFactory).get(GalleryViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(GalleryViewModel::class.java)
 
     override fun addFragmentToActivity(resourceId: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction()
@@ -76,16 +91,16 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode){
+        when (requestCode) {
             WRITE_REQUEST_CODE -> {
-                if(grantResults.first()==PackageManager.PERMISSION_GRANTED){
-                    Log.d("Namazu","permission granted")
+                if (grantResults.first() == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("Namazu", "permission granted")
                     timelineViewModel = obtainTimelineViewModel()
                     galleryViewModel = obtainGalleryViewModel()
                     galleryViewModel.setNavigator(this)
 
-                }else{
-                    Log.d("Namazu","permission refused")
+                } else {
+                    Log.d("Namazu", "permission refused")
                 }
             }
         }

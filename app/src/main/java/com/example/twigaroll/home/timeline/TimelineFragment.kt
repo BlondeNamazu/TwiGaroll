@@ -30,6 +30,12 @@ class TimelineFragment : Fragment() {
         binding.viewModel?.tweetList?.observe(this, Observer<List<Tweet>> {
             adapter.replaceList(it, context)
         })
+        binding.viewModel?.shouldBackToTimelineTop?.observe(this, Observer<Boolean> {
+            if (binding.viewModel?.shouldBackToTimelineTop?.value == true) {
+                timeline_listview.smoothScrollToPosition(0)
+                binding.viewModel?.toggleShouldBackToTimelineTop(false)
+            }
+        })
 
         timeline_refresh_layout.setOnRefreshListener {
             binding.viewModel?.refreshTimeline(timeline_listview)
