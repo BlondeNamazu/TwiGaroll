@@ -17,6 +17,10 @@ class TimelineViewModel @Inject constructor(
     val tweetList: LiveData<List<Tweet>>
         get() = _tweetList
 
+    private val _shouldBackToTimelineTop = MutableLiveData<Boolean>()
+    val shouldBackToTimelineTop: LiveData<Boolean>
+        get() = _shouldBackToTimelineTop
+
     fun refreshTimeline(v: View) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -24,4 +28,6 @@ class TimelineViewModel @Inject constructor(
             }
         }
     }
+
+    fun toggleShouldBackToTimelineTop(should: Boolean) = _shouldBackToTimelineTop.postValue(should)
 }
