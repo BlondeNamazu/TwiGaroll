@@ -8,4 +8,5 @@ interface TweetRequestRepository {
     suspend fun postUnlike(tweetId: Long): Tweet
     suspend fun postRetweet(tweetId: Long): Tweet
     suspend fun postUnretweet(tweetId: Long): Tweet
+    suspend fun postTweet(text: String): Tweet
 }

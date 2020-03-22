@@ -1,5 +1,6 @@
 package com.example.twigaroll.home.timeline
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ class TimelineFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: TweetRecyclerAdapter
 
+    @SuppressLint("RestrictedApi")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -40,6 +42,11 @@ class TimelineFragment : Fragment() {
         timeline_refresh_layout.setOnRefreshListener {
             binding.viewModel?.refreshTimeline(timeline_listview)
             timeline_refresh_layout.isRefreshing = false
+        }
+
+        fab.setOnClickListener {
+            binding.viewModel?.beginPostTweetFragment()
+            fab.visibility = View.GONE
         }
 
         binding.viewModel?.refreshTimeline(timeline_listview)
