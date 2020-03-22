@@ -147,7 +147,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[0].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
@@ -159,7 +159,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[1].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
@@ -171,7 +171,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[2].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
@@ -183,7 +183,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[3].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
