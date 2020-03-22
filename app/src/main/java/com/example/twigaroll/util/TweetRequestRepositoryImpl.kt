@@ -59,5 +59,15 @@ class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository 
         }
     }
 
+    override suspend fun postTweet(text: String): Tweet {
+        val twitterApiClient = TwitterCore.getInstance().apiClient
+        val statusesService = twitterApiClient.statusesService
+        return runBlocking {
+            statusesService
+                .update(text, null, null, null, null, null, null, false, null)
+                .execute()
+                .body()
+        }
+    }
 
 }

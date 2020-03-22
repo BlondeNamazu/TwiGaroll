@@ -96,6 +96,7 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
                 if (grantResults.first() == PackageManager.PERMISSION_GRANTED) {
                     Log.d("Namazu", "permission granted")
                     timelineViewModel = obtainTimelineViewModel()
+                    timelineViewModel.setNavigator(this)
                     galleryViewModel = obtainGalleryViewModel()
                     galleryViewModel.setNavigator(this)
 
