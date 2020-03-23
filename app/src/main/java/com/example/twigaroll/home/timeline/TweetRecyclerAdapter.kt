@@ -99,7 +99,7 @@ class TweetRecyclerAdapter @Inject constructor(
                 (holder.binding as TweetRowImage1Binding).tweet = thisTweet
                 holder.binding.belongToGallery =
                     belongToGallery(thisTweet, holder.binding.root.context)
-                holder.binding.favButton.setOnClickListener {
+                holder.binding.baseTweet.favButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -121,7 +121,7 @@ class TweetRecyclerAdapter @Inject constructor(
                         }
                     }
                 }
-                holder.binding.retweetButton.setOnClickListener {
+                holder.binding.baseTweet.retweetButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -176,7 +176,7 @@ class TweetRecyclerAdapter @Inject constructor(
                 (holder.binding as TweetRowImage2Binding).tweet = thisTweet
                 holder.binding.belongToGallery =
                     belongToGallery(thisTweet, holder.binding.root.context)
-                holder.binding.favButton.setOnClickListener {
+                holder.binding.baseTweet.favButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -198,7 +198,7 @@ class TweetRecyclerAdapter @Inject constructor(
                         }
                     }
                 }
-                holder.binding.retweetButton.setOnClickListener {
+                holder.binding.baseTweet.retweetButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -253,7 +253,7 @@ class TweetRecyclerAdapter @Inject constructor(
                 (holder.binding as TweetRowImage3Binding).tweet = thisTweet
                 holder.binding.belongToGallery =
                     belongToGallery(thisTweet, holder.binding.root.context)
-                holder.binding.favButton.setOnClickListener {
+                holder.binding.baseTweet.favButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -275,7 +275,7 @@ class TweetRecyclerAdapter @Inject constructor(
                         }
                     }
                 }
-                holder.binding.retweetButton.setOnClickListener {
+                holder.binding.baseTweet.retweetButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -330,7 +330,7 @@ class TweetRecyclerAdapter @Inject constructor(
                 (holder.binding as TweetRowImage4Binding).tweet = thisTweet
                 holder.binding.belongToGallery =
                     belongToGallery(thisTweet, holder.binding.root.context)
-                holder.binding.favButton.setOnClickListener {
+                holder.binding.baseTweet.favButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
@@ -352,7 +352,7 @@ class TweetRecyclerAdapter @Inject constructor(
                         }
                     }
                 }
-                holder.binding.retweetButton.setOnClickListener {
+                holder.binding.baseTweet.retweetButton.setOnClickListener {
 
                     GlobalScope.launch {
                         runBlocking(Dispatchers.IO) {
