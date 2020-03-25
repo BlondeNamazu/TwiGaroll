@@ -3,8 +3,10 @@ package com.example.twigaroll.home.timeline
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twigaroll.R
+import com.example.twigaroll.RepositoryModule
 import com.example.twigaroll.data.TimelineListItem
 import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.*
@@ -16,8 +18,10 @@ import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 
 import com.twitter.sdk.android.core.models.Tweet
+import dagger.Component
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class TweetRecyclerAdapter @Inject constructor(
     private val fileIORepository: FileIORepository,
@@ -237,6 +241,23 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.retweetButton.setOnClickListener {
                     postRetweetUnretweet(tweetListItem, position)
                 }
+                holder.binding.stampListOpened = false
+                holder.binding.stampButton.setOnClickListener {
+                    val currentStatus = holder.binding.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.stampList)
+                    }
+                    holder.binding.stampListOpened = !currentStatus
+                }
             }
             is TimelineListItem.OneImageTweet -> {
                 val thisTweet = tweetListItem.tweet
@@ -248,6 +269,12 @@ class TweetRecyclerAdapter @Inject constructor(
                 }
                 holder.binding.baseTweet.retweetButton.setOnClickListener {
                     postRetweetUnretweet(tweetListItem, position)
+                }
+                holder.binding.baseTweet.stampListOpened = false
+                holder.binding.baseTweet.stampButton.setOnClickListener {
+                    val currentStatus =
+                        holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
@@ -261,8 +288,14 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.favButton.setOnClickListener {
                     postLikeUnlike(tweetListItem, position)
                 }
+                holder.binding.baseTweet.stampListOpened = false
                 holder.binding.baseTweet.retweetButton.setOnClickListener {
                     postRetweetUnretweet(tweetListItem, position)
+                }
+                holder.binding.baseTweet.stampButton.setOnClickListener {
+                    val currentStatus =
+                        holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
@@ -280,6 +313,12 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.retweetButton.setOnClickListener {
                     postRetweetUnretweet(tweetListItem, position)
                 }
+                holder.binding.baseTweet.stampListOpened = false
+                holder.binding.baseTweet.stampButton.setOnClickListener {
+                    val currentStatus =
+                        holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    holder.binding.baseTweet.stampListOpened = !currentStatus
+                }
                 holder.binding.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
                 }
@@ -294,6 +333,12 @@ class TweetRecyclerAdapter @Inject constructor(
                 }
                 holder.binding.baseTweet.retweetButton.setOnClickListener {
                     postRetweetUnretweet(tweetListItem, position)
+                }
+                holder.binding.baseTweet.stampListOpened = false
+                holder.binding.baseTweet.stampButton.setOnClickListener {
+                    val currentStatus =
+                        holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
@@ -409,5 +454,11 @@ class TweetRecyclerAdapter @Inject constructor(
         return newURLs
             .map { savedURLs.contains(it) }
             .reduce { a, b -> a or b }
+    }
+
+    @Singleton
+    @Component(modules = [RepositoryModule::class])
+    interface StampListAdapterFactory {
+        fun make(): StampListAdapter
     }
 }
