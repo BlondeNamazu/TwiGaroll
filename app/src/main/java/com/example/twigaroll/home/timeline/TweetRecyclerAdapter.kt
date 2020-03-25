@@ -274,6 +274,18 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.baseTweet.stockButton.setOnClickListener {
@@ -296,6 +308,18 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.baseTweet.stockButton.setOnClickListener {
@@ -319,6 +343,18 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.baseTweet.stockButton.setOnClickListener {
@@ -341,6 +377,18 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
                 holder.binding.baseTweet.stockButton.setOnClickListener {
