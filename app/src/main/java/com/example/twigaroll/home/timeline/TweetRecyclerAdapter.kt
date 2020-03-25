@@ -276,8 +276,9 @@ class TweetRecyclerAdapter @Inject constructor(
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
             is TimelineListItem.TwoImageTweet -> {
@@ -297,8 +298,9 @@ class TweetRecyclerAdapter @Inject constructor(
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
 
             }
@@ -319,8 +321,9 @@ class TweetRecyclerAdapter @Inject constructor(
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
             is TimelineListItem.FourImageTweet -> {
@@ -340,8 +343,9 @@ class TweetRecyclerAdapter @Inject constructor(
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
-                    postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                holder.binding.baseTweet.stockButton.setOnClickListener {
+                    postStockUnstock(tweetListItem, position, holder.binding.baseTweet.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
         }
