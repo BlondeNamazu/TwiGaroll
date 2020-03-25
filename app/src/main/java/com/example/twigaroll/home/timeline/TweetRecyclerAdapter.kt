@@ -274,10 +274,23 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
             is TimelineListItem.TwoImageTweet -> {
@@ -295,10 +308,23 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
 
             }
@@ -317,10 +343,23 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
+                holder.binding.baseTweet.stockButton.setOnClickListener {
                     postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
             is TimelineListItem.FourImageTweet -> {
@@ -338,10 +377,23 @@ class TweetRecyclerAdapter @Inject constructor(
                 holder.binding.baseTweet.stampButton.setOnClickListener {
                     val currentStatus =
                         holder.binding.baseTweet.stampListOpened ?: return@setOnClickListener
+                    if (!currentStatus) {
+                        holder.binding.baseTweet.stampList.layoutManager =
+                            LinearLayoutManager(
+                                holder.binding.root.context,
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                        val adapter =
+                            DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
+                        holder.binding.baseTweet.stampList.adapter = adapter
+                        adapter.loadStamps(holder.binding.baseTweet.stampList)
+                    }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
                 }
-                holder.binding.stockButton.setOnClickListener {
-                    postStockUnstock(tweetListItem, position, holder.binding.root.context)
+                holder.binding.baseTweet.stockButton.setOnClickListener {
+                    postStockUnstock(tweetListItem, position, holder.binding.baseTweet.root.context)
+                    holder.binding.baseTweet.belongToGallery = holder.binding.belongToGallery
                 }
             }
         }
