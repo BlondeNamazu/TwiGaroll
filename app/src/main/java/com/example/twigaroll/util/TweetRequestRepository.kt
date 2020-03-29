@@ -10,5 +10,5 @@ interface TweetRequestRepository {
     suspend fun postRetweet(tweetId: Long): Tweet
     suspend fun postUnretweet(tweetId: Long): Tweet
     suspend fun postTweet(text: String): Tweet
-    suspend fun postStamp(context: Context, inReplyToStatusId: Long, mediaId: String)
+    suspend fun postStamp(context: Context, inReplyToStatusId: Long, resourceId: Int)
 }

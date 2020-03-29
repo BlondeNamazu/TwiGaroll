@@ -80,18 +80,15 @@ class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository 
         }
     }
 
-    override suspend fun postStamp(context: Context, inReplyToStatusId: Long, mediaId: String) {
+    override suspend fun postStamp(context: Context, inReplyToStatusId: Long, resourceId: Int) {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         runBlocking {
             val r = context.resources
-            val bmp = BitmapFactory.decodeResource(r, R.drawable.fav_1)
-            println("bmp: $bmp")
+            val bmp = BitmapFactory.decodeResource(r, resourceId)
             val stream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val bytes = stream.toByteArray()
-            println("bytes: $bytes")
             val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), bytes)
-            println(requestBody.contentType())
             val uploadedMediaIdStr = twitterApiClient
                 .mediaService
                 .upload(requestBody, null, null)
