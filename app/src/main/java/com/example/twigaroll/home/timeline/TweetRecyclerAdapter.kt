@@ -254,6 +254,8 @@ class TweetRecyclerAdapter @Inject constructor(
                         val adapter =
                             DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
                         holder.binding.stampList.adapter = adapter
+                        (holder.binding.stampList.adapter as StampListAdapter).inReplyToStatusId =
+                            tweetList[position].tweet.id
                         adapter.loadStamps(holder.binding.stampList)
                     }
                     holder.binding.stampListOpened = !currentStatus
@@ -284,6 +286,8 @@ class TweetRecyclerAdapter @Inject constructor(
                         val adapter =
                             DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
                         holder.binding.baseTweet.stampList.adapter = adapter
+                        (holder.binding.baseTweet.stampList.adapter as StampListAdapter).inReplyToStatusId =
+                            tweetList[position].tweet.id
                         adapter.loadStamps(holder.binding.baseTweet.stampList)
                     }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
@@ -318,6 +322,8 @@ class TweetRecyclerAdapter @Inject constructor(
                         val adapter =
                             DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
                         holder.binding.baseTweet.stampList.adapter = adapter
+                        (holder.binding.baseTweet.stampList.adapter as StampListAdapter).inReplyToStatusId =
+                            tweetList[position].tweet.id
                         adapter.loadStamps(holder.binding.baseTweet.stampList)
                     }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
@@ -353,6 +359,8 @@ class TweetRecyclerAdapter @Inject constructor(
                         val adapter =
                             DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
                         holder.binding.baseTweet.stampList.adapter = adapter
+                        (holder.binding.baseTweet.stampList.adapter as StampListAdapter).inReplyToStatusId =
+                            tweetList[position].tweet.id
                         adapter.loadStamps(holder.binding.baseTweet.stampList)
                     }
                     holder.binding.baseTweet.stampListOpened = !currentStatus
@@ -387,6 +395,8 @@ class TweetRecyclerAdapter @Inject constructor(
                         val adapter =
                             DaggerTweetRecyclerAdapter_StampListAdapterFactory.create().make()
                         holder.binding.baseTweet.stampList.adapter = adapter
+                        (holder.binding.baseTweet.stampList.adapter as StampListAdapter).inReplyToStatusId =
+                            tweetList[position].tweet.id
                         adapter.loadStamps(holder.binding.baseTweet.stampList)
                     }
                     holder.binding.baseTweet.stampListOpened = !currentStatus

@@ -1,8 +1,18 @@
 package com.example.twigaroll.util
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import com.example.twigaroll.R
+import com.twitter.sdk.android.core.Callback
+import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository {
@@ -70,4 +80,46 @@ class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository 
         }
     }
 
+    override suspend fun postStamp(context: Context, inReplyToStatusId: Long, mediaId: String) {
+        val twitterApiClient = TwitterCore.getInstance().apiClient
+        runBlocking {
+            val r = context.resources
+            val bmp = BitmapFactory.decodeResource(r, R.drawable.fav_1)
+            println("bmp: $bmp")
+            val stream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val bytes = stream.toByteArray()
+            println("bytes: $bytes")
+            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), bytes)
+            println(requestBody.contentType())
+            val uploadedMediaIdStr = twitterApiClient
+                .mediaService
+                .upload(requestBody, null, null)
+                .execute()
+                .body()
+                .mediaIdString ?: return@runBlocking
+            twitterApiClient
+                .statusesService
+                .update(
+                    "",
+                    inReplyToStatusId,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false,
+                    uploadedMediaIdStr
+                )
+                .enqueue(object : Callback<Tweet>() {
+                    override fun success(result: Result<Tweet>?) {
+                        println("success! id: ${result?.data?.id}")
+                    }
+
+                    override fun failure(exception: TwitterException?) {
+                        println("failure due to ${exception.toString()}")
+                    }
+                })
+        }
+    }
 }
