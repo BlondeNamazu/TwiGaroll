@@ -1,5 +1,6 @@
 package com.example.twigaroll.util
 
+import android.content.Context
 import com.twitter.sdk.android.core.models.Tweet
 
 interface TweetRequestRepository {
@@ -9,4 +10,5 @@ interface TweetRequestRepository {
     suspend fun postRetweet(tweetId: Long): Tweet
     suspend fun postUnretweet(tweetId: Long): Tweet
     suspend fun postTweet(text: String): Tweet
+    suspend fun postStamp(context: Context, inReplyToStatusId: Long, resourceId: Int)
 }
