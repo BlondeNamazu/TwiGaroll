@@ -12,8 +12,9 @@ import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
 import com.example.twigaroll.ViewModelFactory
+import com.example.twigaroll.home.gallery.GalleryFragment
+import com.example.twigaroll.home.timeline.TimelineFragment
 import com.example.twigaroll.home.timeline.TimelineViewModel
-import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
@@ -32,24 +33,35 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        viewPager.offscreenPageLimit = 2
-        viewPager.adapter =
-            HomeFragmentPagerAdapter(supportFragmentManager)
-        tabLayout.setupWithViewPager(viewPager)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(p0: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(p0: TabLayout.Tab?) {
-                p0 ?: return
-                if (p0.position == 0) {
-                    timelineViewModel.toggleShouldBackToTimelineTop(true)
+        home_bottomnavigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.navigation_timeline_item -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.home_container, TimelineFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_gallery_item -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.home_container, GalleryFragment())
+                        .commit()
+                    return@setOnNavigationItemSelectedListener true
                 }
             }
-
-            override fun onTabUnselected(p0: TabLayout.Tab?) {
+            return@setOnNavigationItemSelectedListener false
+        }
+        home_bottomnavigation.setOnNavigationItemReselectedListener {
+            when (it.itemId) {
+                R.id.navigation_timeline_item -> {
+                    timelineViewModel.toggleShouldBackToTimelineTop(true)
+                }
+                R.id.navigation_gallery_item -> {
+                }
             }
-        })
+        }
+        addFragmentToActivity(R.id.home_container, TimelineFragment())
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
 
@@ -62,7 +74,8 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         ViewModelProviders.of(this, viewModelFactory).get(GalleryViewModel::class.java)
 
     override fun addFragmentToActivity(resourceId: Int, fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .add(resourceId, fragment)
             .commit()
     }
