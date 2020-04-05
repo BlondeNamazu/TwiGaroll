@@ -17,14 +17,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="TwiGaroll" />
 
-    <FrameLayout
+    <fragment
         android:id="@+id/home_container"
+        android:name="com.example.twigaroll.home.TwiGarollNavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/home_bottomnavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:navGraph="@navigation/navigation_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_bottomnavigation"

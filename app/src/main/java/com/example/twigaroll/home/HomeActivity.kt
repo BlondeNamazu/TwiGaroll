@@ -8,12 +8,12 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
 import com.example.twigaroll.ViewModelFactory
-import com.example.twigaroll.home.gallery.GalleryFragment
-import com.example.twigaroll.home.timeline.TimelineFragment
 import com.example.twigaroll.home.timeline.TimelineViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
@@ -33,38 +33,10 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        home_bottomnavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.navigation_timeline_item -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.home_container, TimelineFragment())
-                        .commit()
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_gallery_item -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.home_container, GalleryFragment())
-                        .commit()
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            return@setOnNavigationItemSelectedListener false
-        }
-        home_bottomnavigation.setOnNavigationItemReselectedListener {
-            when (it.itemId) {
-                R.id.navigation_timeline_item -> {
-                    timelineViewModel.toggleShouldBackToTimelineTop(true)
-                }
-                R.id.navigation_gallery_item -> {
-                }
-            }
-        }
-        addFragmentToActivity(R.id.home_container, TimelineFragment())
+        val navController = findNavController(R.id.home_container)
+        NavigationUI.setupWithNavController(home_bottomnavigation, navController)
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
-
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
