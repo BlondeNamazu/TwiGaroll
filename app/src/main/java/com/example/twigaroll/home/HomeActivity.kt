@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
 import com.example.twigaroll.ViewModelFactory
 import com.example.twigaroll.home.timeline.TimelineViewModel
-import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
@@ -32,27 +33,10 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        viewPager.offscreenPageLimit = 2
-        viewPager.adapter =
-            HomeFragmentPagerAdapter(supportFragmentManager)
-        tabLayout.setupWithViewPager(viewPager)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(p0: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(p0: TabLayout.Tab?) {
-                p0 ?: return
-                if (p0.position == 0) {
-                    timelineViewModel.toggleShouldBackToTimelineTop(true)
-                }
-            }
-
-            override fun onTabUnselected(p0: TabLayout.Tab?) {
-            }
-        })
+        val navController = findNavController(R.id.home_container)
+        NavigationUI.setupWithNavController(home_bottomnavigation, navController)
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
-
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
@@ -62,7 +46,8 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         ViewModelProviders.of(this, viewModelFactory).get(GalleryViewModel::class.java)
 
     override fun addFragmentToActivity(resourceId: Int, fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .add(resourceId, fragment)
             .commit()
     }
