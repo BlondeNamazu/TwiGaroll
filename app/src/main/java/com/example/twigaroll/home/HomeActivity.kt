@@ -35,6 +35,12 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
 
         val navController = findNavController(R.id.home_container)
         NavigationUI.setupWithNavController(home_bottomnavigation, navController)
+        
+        home_bottomnavigation.setOnNavigationItemReselectedListener {
+            if(it.itemId == R.id.navigation_timeline_item){
+                timelineViewModel.toggleShouldBackToTimelineTop(true)
+            }
+        }
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
     }
