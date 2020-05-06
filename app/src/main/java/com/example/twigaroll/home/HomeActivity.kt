@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.twigaroll.*
 import com.example.twigaroll.home.gallery.GalleryNavigator
 import com.example.twigaroll.home.gallery.GalleryViewModel
@@ -31,23 +33,27 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        viewPager.offscreenPageLimit = 2
-        viewPager.adapter =
-            HomeFragmentPagerAdapter(supportFragmentManager)
-        tabLayout.setupWithViewPager(viewPager)
+        val navController = findNavController(R.id.home_container)
+        NavigationUI.setupWithNavController(home_bottomnavigation, navController)
+        
+        home_bottomnavigation.setOnNavigationItemReselectedListener {
+            if(it.itemId == R.id.navigation_timeline_item){
+                timelineViewModel.toggleShouldBackToTimelineTop(true)
+            }
+        }
 
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
-
     }
 
     fun obtainTimelineViewModel(): TimelineViewModel =
-        ViewModelProviders.of(this,viewModelFactory).get(TimelineViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(TimelineViewModel::class.java)
 
     fun obtainGalleryViewModel(): GalleryViewModel =
-        ViewModelProviders.of(this,viewModelFactory).get(GalleryViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(GalleryViewModel::class.java)
 
     override fun addFragmentToActivity(resourceId: Int, fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .add(resourceId, fragment)
             .commit()
     }
@@ -76,16 +82,17 @@ class HomeActivity : DaggerAppCompatActivity(), GalleryNavigator {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode){
+        when (requestCode) {
             WRITE_REQUEST_CODE -> {
-                if(grantResults.first()==PackageManager.PERMISSION_GRANTED){
-                    Log.d("Namazu","permission granted")
+                if (grantResults.first() == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("Namazu", "permission granted")
                     timelineViewModel = obtainTimelineViewModel()
+                    timelineViewModel.setNavigator(this)
                     galleryViewModel = obtainGalleryViewModel()
                     galleryViewModel.setNavigator(this)
 
-                }else{
-                    Log.d("Namazu","permission refused")
+                } else {
+                    Log.d("Namazu", "permission refused")
                 }
             }
         }

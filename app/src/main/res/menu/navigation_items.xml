@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_timeline_item"
+        android:icon="@drawable/tw__composer_logo_blue"
+        android:title="Timeline" />
+    <item
+        android:id="@+id/navigation_gallery_item"
+        android:icon="@drawable/stock_1"
+        android:title="Gallery" />
+
+</menu>

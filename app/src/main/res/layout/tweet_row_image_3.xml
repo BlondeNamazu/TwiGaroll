@@ -21,114 +21,14 @@
         android:layout_height="wrap_content"
         android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:imageUrl="@{tweet.user.profileImageUrlHttps}"
+        <include
+            android:id="@+id/base_tweet"
+            layout="@layout/tweet_row_image_0"
+            app:belongToGallery="@{belongToGallery}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/stock_1" />
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{tweet.user.name}"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/user_screenname"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"
-            app:layout_constraintTop_toTopOf="@id/profile_image" />
-
-        <TextView
-            android:id="@+id/user_screenname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{`@` + tweet.user.screenName}"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/profile_image"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"
-            tools:text="screenName" />
-
-        <TextView
-            android:id="@+id/tweet_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@{tweet.text}"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toRightOf="@id/profile_image"
-            app:layout_constraintTop_toBottomOf="@id/profile_image"
-            tools:text="tweet text tweet text tweet text" />
-
-        <ImageButton
-            android:id="@+id/fav_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:src="@{tweet.favorited ? @drawable/fav_1 : @drawable/fav_0}"
-            app:layout_constraintLeft_toLeftOf="@id/user_screenname"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            tools:src="@drawable/fav_1" />
-
-        <TextView
-            android:id="@+id/favorite_count"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:text="@{tweet.favoriteCount>=1000 ? (Integer.toString(tweet.favoriteCount/1000)+&quot;k&quot;) : Integer.toString(tweet.favoriteCount)}"
-            android:textAlignment="textStart"
-            android:textSize="24sp"
-            app:layout_constraintLeft_toRightOf="@id/fav_button"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            tools:text="888k" />
-
-        <ImageButton
-            android:id="@+id/retweet_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:src="@{tweet.retweeted ? @drawable/ret_1 : @drawable/ret_0}"
-            app:layout_constraintLeft_toRightOf="@id/favorite_count"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            tools:src="@drawable/ret_1" />
-
-        <TextView
-            android:id="@+id/retweet_count"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:text="@{tweet.retweetCount>=1000 ? (Integer.toString(tweet.retweetCount/1000)+&quot;k&quot;) : Integer.toString(tweet.retweetCount)}"
-            android:textAlignment="textStart"
-            android:textSize="24sp"
-            app:layout_constraintLeft_toRightOf="@id/retweet_button"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            tools:text="19" />
-
-        <ImageButton
-            android:id="@+id/stock_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:src="@{belongToGallery ? @drawable/stock_1 : @drawable/stock_0}"
-            android:textAlignment="center"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tweet_text"
-            tools:src="@drawable/stock_1" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tweet="@{tweet}" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -137,38 +37,43 @@
             android:adjustViewBounds="true"
             android:columnCount="2"
             android:rowCount="2"
-            app:layout_constraintTop_toBottomOf="@id/fav_button">
+            app:layout_constraintTop_toBottomOf="@id/base_tweet">
 
             <ImageView
                 android:id="@+id/embedded_image_0"
-                android:layout_width="200dp"
-                android:layout_height="400dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_row="0"
                 android:layout_rowSpan="2"
+                android:layout_rowWeight="1"
                 android:layout_column="0"
-                android:padding="4dp"
+                android:layout_columnWeight="1"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[0].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
             <ImageView
                 android:id="@+id/embedded_image_1"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_row="0"
+                android:layout_rowWeight="1"
                 android:layout_column="1"
-                android:padding="4dp"
+                android:layout_columnWeight="1"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[1].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />
 
             <ImageView
                 android:id="@+id/embedded_image_2"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_row="1"
+                android:layout_rowWeight="1"
                 android:layout_column="1"
-                android:padding="4dp"
+                android:layout_columnWeight="1"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{tweet.extendedEntities.media[2].mediaUrlHttps}"
                 tools:src="@drawable/stock_1" />

@@ -13,12 +13,6 @@ import com.example.twigaroll.util.FileIORepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
-import com.twitter.sdk.android.core.TwitterException
-import com.twitter.sdk.android.core.models.Tweet
-import dagger.Component
 import javax.inject.Inject
 
 class GalleryViewModel @Inject constructor(
