@@ -25,14 +25,6 @@ android {
     dataBinding {
         enabled = true
     }
-    sourceSets {
-        main {
-            res.srcDirs += [
-                    'src/main/res',
-                    'src/main/res-stamp'
-            ]
-        }
-    }
 }
 
 kotlin {
