@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.twigaroll.R
+import com.squareup.picasso.Picasso
 import com.twitter.sdk.android.core.Callback
 import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterCore
@@ -80,11 +81,10 @@ class TweetRequestRepositoryImpl @Inject constructor() : TweetRequestRepository 
         }
     }
 
-    override suspend fun postStamp(context: Context, inReplyToStatusId: Long, resourceId: Int) {
+    override suspend fun postStamp(context: Context, inReplyToStatusId: Long, imageURL: String) {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         runBlocking {
-            val r = context.resources
-            val bmp = BitmapFactory.decodeResource(r, resourceId)
+            val bmp = Picasso.get().load(imageURL).get() ?: return@runBlocking
             val stream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val bytes = stream.toByteArray()

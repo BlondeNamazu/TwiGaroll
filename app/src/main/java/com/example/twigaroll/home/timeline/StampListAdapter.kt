@@ -11,13 +11,17 @@ import com.example.twigaroll.data.TweetIdData
 import com.example.twigaroll.databinding.ReplyStampListItemBinding
 import com.example.twigaroll.util.BindingViewHolder
 import com.example.twigaroll.util.FileIORepository
+import com.example.twigaroll.util.TweetRequestRepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StampListAdapter @Inject constructor(
-    private val fileIORepository: FileIORepository
+    private val fileIORepository: FileIORepository,
+    private val tweetRequestRepository: TweetRequestRepository
 ) :
     RecyclerView.Adapter<BindingViewHolder>() {
 
@@ -43,6 +47,17 @@ class StampListAdapter @Inject constructor(
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
         (holder.binding as ReplyStampListItemBinding).imageURL =
             imageURLs.value?.get(position)
+        holder.binding.stampImage.setOnClickListener {
+            if (inReplyToStatusId < 0) return@setOnClickListener
+            val imageURL = holder.binding.imageURL ?: return@setOnClickListener
+            GlobalScope.launch {
+                tweetRequestRepository.postStamp(
+                    holder.binding.root.context,
+                    inReplyToStatusId,
+                    imageURL
+                )
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
